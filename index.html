@@ -485,8 +485,8 @@ days.forEach(d=>{
     <a class="waze-btn" href="${gmapsUrl}" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#34a853,#1b8a3e)"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Google Maps</a>
     <span style="font-size:.75rem;color:var(--text-muted)">Destino: ${d.dest.label}</span>
   </div>`:'';;
-  dc.innerHTML+=`<div class="day-card${d.n===1?' open':''}" onclick="toggleDay(this)">
-    <div class="day-header"><div class="day-header-left"><div class="day-num">${d.n}</div><div><div class="day-title">${d.title}</div><div class="day-date">${d.date}</div></div></div>
+  dc.innerHTML+=`<div class="day-card${d.n===1?' open':''}">
+    <div class="day-header" onclick="toggleDay(this.parentElement)"><div class="day-header-left"><div class="day-num">${d.n}</div><div><div class="day-title">${d.title}</div><div class="day-date">${d.date}</div></div></div>
     <div class="day-badges"><span class="badge badge-km">${d.km} km</span><span class="badge badge-time">${d.time}</span>${d.flagCode.split(',').map(c=>`<img class="flag-img" src="${flags[c]}" alt="${c.toUpperCase()}">`).join('')}<span class="day-chevron">\u25BC</span></div></div>
     <div class="day-body">${alertHtml}<div class="photo-gallery">${photosHtml}</div>${stopsHtml}${directionsHtml}</div></div>`;
 });
@@ -566,7 +566,11 @@ stops.forEach((s,i)=>{
 map.fitBounds(stops.map(s=>[s.lat,s.lng]),{padding:[30,30]});
 
 // === FUNCTIONS ===
-function toggleDay(card){card.classList.toggle('open')}
+function toggleDay(card){
+  const sel=window.getSelection();
+  if(sel&&sel.toString().length>0)return;
+  card.classList.toggle('open');
+}
 function scrollTo_(id){document.querySelector(id)?.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));event?.target?.classList?.add('active')}
 const sections=document.querySelectorAll('section[id]');
 window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
