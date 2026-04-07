@@ -153,8 +153,8 @@ footer a{color:#C47D0A;text-decoration:none}
 <div class="hero-bg"></div>
 <div class="hero-content">
 <h1>Madrid a Amsterdam</h1>
-<p class="subtitle">16 dias de motorhome por 6 paises &middot; Natureza, cachoeiras & experiencias locais</p>
-<p style="color:var(--text-muted);font-size:.95rem">21 de outubro a 05 de novembro</p>
+<p class="subtitle" style="color:#2D2A24;font-weight:400">16 dias de motorhome por 6 paises &middot; Natureza, cachoeiras & experiencias locais</p>
+<p style="color:#5C5447;font-size:.95rem;font-weight:500">21 de outubro a 05 de novembro</p>
 <div class="hero-stats">
 <div class="hero-stat"><span class="num">2.870</span><span class="label">Quilometros</span></div>
 <div class="hero-stat"><span class="num">16</span><span class="label">Dias</span></div>
@@ -341,6 +341,7 @@ footer a{color:#C47D0A;text-decoration:none}
 <footer><div class="container"><p>Roteiro criado em abril/2026 &middot; <a href="https://www.globalpetrolprices.com/diesel_prices/Europe/">GlobalPetrolPrices</a> &middot; <a href="https://www.fuel-prices.eu/">Fuel Prices EU</a> &middot; <a href="https://www.ch.ch/en/travel-and-emigrate/holidays-in-switzerland/how-to-behave-in-road-traffic/motorway-vignette/">Vinheta Suica</a></p></div></footer>
 
 <script>
+document.addEventListener('DOMContentLoaded',function(){
 // === DATA ===
 const F='https://commons.wikimedia.org/wiki/Special:FilePath/';
 const S='?width=640';
@@ -567,15 +568,19 @@ stops.forEach((s,i)=>{
 // Fit bounds
 map.fitBounds(stops.map(s=>[s.lat,s.lng]),{padding:[30,30]});
 
-// === FUNCTIONS ===
+// === NAV SCROLL HIGHLIGHT ===
+const sections=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
+
+}); // end DOMContentLoaded
+
+// === GLOBAL FUNCTIONS (acessiveis pelo onclick no HTML) ===
 function toggleDay(card){
   const sel=window.getSelection();
   if(sel&&sel.toString().length>0)return;
   card.classList.toggle('open');
 }
 function scrollTo_(id){document.querySelector(id)?.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));event?.target?.classList?.add('active')}
-const sections=document.querySelectorAll('section[id]');
-window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
 </script>
 </body>
 </html>
