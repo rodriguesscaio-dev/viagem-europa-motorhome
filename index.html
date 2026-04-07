@@ -6,8 +6,7 @@
 <title>Roteiro Motorhome: Madrid a Amsterdam | 16 dias, 6 paises</title>
 <meta name="description" content="Roteiro completo de motorhome: Madrid a Amsterdam em 16 dias. Mapa interativo, fotos, custos, Waze. Espanha, Franca, Suica, Alemanha, Belgica, Holanda.">
 <meta name="theme-color" content="#FDFAF5">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
 :root{--bg:#FDFAF5;--surface:#FFFFFF;--surface2:#F7F2EA;--border:#E8DFD0;--text:#2D2A24;--text-muted:#8A7D6B;--accent:#C47D0A;--accent2:#2B7A4B;--accent3:#B85A1C;--spain:#C0392B;--andorra:#2980B9;--france:#1D4ED8;--swiss:#DC2626;--germany:#CA8A04;--belgium:#16A34A;--netherlands:#EA580C}
@@ -338,17 +337,10 @@ footer a{color:#C47D0A;text-decoration:none}
 </div>
 </section>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <footer><div class="container"><p>Roteiro criado em abril/2026 &middot; <a href="https://www.globalpetrolprices.com/diesel_prices/Europe/">GlobalPetrolPrices</a> &middot; <a href="https://www.fuel-prices.eu/">Fuel Prices EU</a> &middot; <a href="https://www.ch.ch/en/travel-and-emigrate/holidays-in-switzerland/how-to-behave-in-road-traffic/motorway-vignette/">Vinheta Suica</a></p></div></footer>
 
 <script>
-function initApp(){
-if(typeof L==='undefined'){
-  var s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
-  s.onload=initApp;
-  document.head.appendChild(s);
-  return;
-}
 // === DATA ===
 const F='https://commons.wikimedia.org/wiki/Special:FilePath/';
 const S='?width=640';
@@ -579,8 +571,7 @@ map.fitBounds(stops.map(s=>[s.lat,s.lng]),{padding:[30,30]});
 const sections=document.querySelectorAll('section[id]');
 window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
 
-} // end initApp
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initApp)}else{initApp()}
+// end main code
 
 // === GLOBAL FUNCTIONS (acessiveis pelo onclick no HTML) ===
 function toggleDay(card){
