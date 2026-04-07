@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roteiro Motorhome: Madrid a Amsterdam</title>
+<title>Roteiro Motorhome: Madrid a Amsterdam | 16 dias, 6 paises</title>
+<meta name="description" content="Roteiro completo de motorhome: Madrid a Amsterdam em 16 dias. Mapa interativo, fotos, custos, Waze. Espanha, Franca, Suica, Alemanha, Belgica, Holanda.">
+<meta name="theme-color" content="#f59e0b">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
 :root{--bg:#0f1117;--surface:#1a1d27;--surface2:#232735;--border:#2d3148;--text:#e4e7ef;--text-muted:#8b90a5;--accent:#f59e0b;--accent2:#10b981;--accent3:#6366f1;--spain:#e74c3c;--andorra:#3498db;--france:#2563eb;--swiss:#dc2626;--germany:#f59e0b;--belgium:#22c55e;--netherlands:#f97316}
@@ -38,7 +39,7 @@ section h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:.5r
 .progress-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-bottom:2rem}
 .route-visual{display:flex;flex-direction:column}
 .route-country{position:relative;padding:1.2rem 1.5rem 1.2rem 3.5rem;border-left:3px solid var(--border);margin-left:1rem}
-.route-country::before{content:'';position:absolute;left:-1.4rem;top:1.2rem;width:28px;height:20px;background:var(--bg) url(attr(data-flag-src)) center/contain no-repeat;border-radius:3px}
+.route-country::before{display:none}
 .route-flag{position:absolute;left:-1.4rem;top:1.2rem;width:28px;height:20px;border-radius:3px;background:var(--bg);padding:2px}
 .route-flag img{width:24px;height:16px;border-radius:2px}
 .country-name{font-weight:700;font-size:1rem}
@@ -140,8 +141,8 @@ section h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:.5r
 .bonus-item span{font-size:.78rem;color:var(--text-muted)}
 footer{border-top:1px solid var(--border);padding:2rem 0;text-align:center;color:var(--text-muted);font-size:.78rem}
 footer a{color:var(--accent);text-decoration:none}
-@media(max-width:768px){.hero-stats{gap:1rem}.day-header{flex-direction:column;align-items:flex-start;gap:.4rem}.day-badges{justify-content:flex-start}.photo-gallery{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.photo-gallery{grid-template-columns:1fr}}
+@media(max-width:768px){.hero-stats{gap:1rem}.day-header{flex-direction:column;align-items:flex-start;gap:.4rem}.day-badges{justify-content:flex-start}.photo-gallery{grid-template-columns:1fr 1fr}.nav-btn{padding:.5rem 1rem;font-size:.82rem;min-height:44px}.waze-btn{padding:.7rem 1.2rem;min-height:44px}.directions-row{flex-direction:column;align-items:flex-start}}
+@media(max-width:480px){.photo-gallery{grid-template-columns:1fr}.hero h1{font-size:2.2rem}.hero-stat .num{font-size:2rem}}
 </style>
 </head>
 <body>
@@ -237,13 +238,13 @@ footer a{color:var(--accent);text-decoration:none}
 <p class="section-sub">Precos de referencia abril/2026</p>
 <div style="overflow-x:auto">
 <table class="fuel-table"><thead><tr><th>Pais</th><th>Diesel/L</th><th>Km</th><th>Litros</th><th>Custo</th></tr></thead><tbody>
-<tr><td><span class="flag">&#127466;&#127480;</span>Espanha</td><td>~1,77</td><td>600</td><td>72 L</td><td>~127 EUR</td></tr>
-<tr><td><span class="flag">&#127462;&#127465;</span>Andorra</td><td>~1,30</td><td>50</td><td>tanque</td><td>~85 EUR</td></tr>
-<tr><td><span class="flag">&#127467;&#127479;</span>Franca</td><td>~2,20</td><td>700</td><td>84 L</td><td>~185 EUR</td></tr>
-<tr><td><span class="flag">&#127464;&#127469;</span>Suica</td><td>~2,20 CHF</td><td>200</td><td>24 L</td><td>~53 EUR</td></tr>
-<tr><td><span class="flag">&#127465;&#127466;</span>Alemanha</td><td>~2,20</td><td>300</td><td>36 L</td><td>~79 EUR</td></tr>
-<tr><td><span class="flag">&#127463;&#127466;</span>Belgica</td><td>~2,23</td><td>350</td><td>42 L</td><td>~94 EUR</td></tr>
-<tr><td><span class="flag">&#127475;&#127473;</span>Holanda</td><td>~2,46</td><td>210</td><td>25 L</td><td>~62 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/es.png"> Espanha</td><td>~1,77</td><td>600</td><td>72 L</td><td>~127 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/ad.png"> Andorra</td><td>~1,30</td><td>50</td><td>tanque</td><td>~85 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/fr.png"> Franca</td><td>~2,20</td><td>700</td><td>84 L</td><td>~185 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/ch.png"> Suica</td><td>~2,20 CHF</td><td>200</td><td>24 L</td><td>~53 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/de.png"> Alemanha</td><td>~2,20</td><td>300</td><td>36 L</td><td>~79 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/be.png"> Belgica</td><td>~2,23</td><td>350</td><td>42 L</td><td>~94 EUR</td></tr>
+<tr><td><img class="flag-img" src="https://flagcdn.com/w40/nl.png"> Holanda</td><td>~2,46</td><td>210</td><td>25 L</td><td>~62 EUR</td></tr>
 <tr><td colspan="3"><strong>TOTAL</strong></td><td><strong>~289 L</strong></td><td><strong>~685 EUR</strong></td></tr>
 </tbody></table></div>
 <h3 style="font-size:1rem;margin:2rem 0 1rem">Resumo Total (2 pessoas)</h3>
@@ -279,11 +280,11 @@ footer a{color:var(--accent);text-decoration:none}
 <h2>Zonas de Baixa Emissao</h2>
 <p class="section-sub">Providenciar ANTES da viagem - multas de 68-350 EUR</p>
 <div class="lez-grid">
-<div class="lez-card"><h4>&#127467;&#127479; Lyon</h4><div class="lez-type">Crit'Air</div><div class="lez-how">certificat-air.gouv.fr</div><div class="lez-cost">3,72 EUR</div></div>
-<div class="lez-card"><h4>&#127465;&#127466; Alemanha</h4><div class="lez-type">Umweltplakette</div><div class="lez-how">Online ou TUV/DEKRA</div><div class="lez-cost">~5-15 EUR</div></div>
-<div class="lez-card"><h4>&#127463;&#127466; Bruxelas</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.brussels</div><div class="lez-cost">Gratuito</div></div>
-<div class="lez-card"><h4>&#127463;&#127466; Antuérpia</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.antwerpen.be</div><div class="lez-cost">Gratuito</div></div>
-<div class="lez-card"><h4>&#127475;&#127473; Amsterdam</h4><div class="lez-type">Milieuzones</div><div class="lez-how">milieuzones.nl</div><div class="lez-cost">Verificar</div></div>
+<div class="lez-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/fr.png">Lyon</h4><div class="lez-type">Crit'Air</div><div class="lez-how">certificat-air.gouv.fr</div><div class="lez-cost">3,72 EUR</div></div>
+<div class="lez-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/de.png">Alemanha</h4><div class="lez-type">Umweltplakette</div><div class="lez-how">Online ou TUV/DEKRA</div><div class="lez-cost">~5-15 EUR</div></div>
+<div class="lez-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/be.png">Bruxelas</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.brussels</div><div class="lez-cost">Gratuito</div></div>
+<div class="lez-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/be.png">Antuérpia</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.antwerpen.be</div><div class="lez-cost">Gratuito</div></div>
+<div class="lez-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/nl.png">Amsterdam</h4><div class="lez-type">Milieuzones</div><div class="lez-how">milieuzones.nl</div><div class="lez-cost">Verificar</div></div>
 </div>
 </div>
 </section>
@@ -308,10 +309,10 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="container">
 <h2>Spots Bonus</h2>
 <p class="section-sub">Se tiverem tempo extra</p>
-<div class="bonus-country"><h4 style="color:var(--spain)">&#127466;&#127480; Espanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Ordesa y Monte Perdido</strong><span>Parque Nacional UNESCO</span></div><div class="bonus-item"><strong>Aiguestortes</strong><span>Lagos glaciais cristalinos</span></div></div></div>
-<div class="bonus-country"><h4 style="color:var(--france)">&#127467;&#127479; Franca</h4><div class="bonus-list"><div class="bonus-item"><strong>Cirque de Navacelles</strong><span>Mini-Grand Canyon</span></div><div class="bonus-item"><strong>Cascades du Herisson</strong><span>7 cachoeiras no Jura</span></div><div class="bonus-item"><strong>Cascade d'Angon</strong><span>Cai no Lac d'Annecy</span></div></div></div>
-<div class="bonus-country"><h4 style="color:var(--germany)">&#127465;&#127466; Alemanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Burg Eltz</strong><span>Castelo medieval na floresta</span></div><div class="bonus-item"><strong>Wutachschlucht</strong><span>Desfiladeiro selvagem</span></div><div class="bonus-item"><strong>Gedeonseck</strong><span>Melhor mirante do Reno</span></div></div></div>
-<div class="bonus-country"><h4 style="color:var(--belgium)">&#127463;&#127466; Belgica & &#127475;&#127473; Holanda</h4><div class="bonus-list"><div class="bonus-item"><strong>Hautes Fagnes</strong><span>Planalto sub-artico</span></div><div class="bonus-item"><strong>Hoge Veluwe NP</strong><span>Bikes gratis + Van Gogh</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--spain)"><img class="flag-img" src="https://flagcdn.com/w40/es.png">Espanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Ordesa y Monte Perdido</strong><span>Parque Nacional UNESCO</span></div><div class="bonus-item"><strong>Aiguestortes</strong><span>Lagos glaciais cristalinos</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--france)"><img class="flag-img" src="https://flagcdn.com/w40/fr.png"> Franca</h4><div class="bonus-list"><div class="bonus-item"><strong>Cirque de Navacelles</strong><span>Mini-Grand Canyon</span></div><div class="bonus-item"><strong>Cascades du Herisson</strong><span>7 cachoeiras no Jura</span></div><div class="bonus-item"><strong>Cascade d'Angon</strong><span>Cai no Lac d'Annecy</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--germany)"><img class="flag-img" src="https://flagcdn.com/w40/de.png"> Alemanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Burg Eltz</strong><span>Castelo medieval na floresta</span></div><div class="bonus-item"><strong>Wutachschlucht</strong><span>Desfiladeiro selvagem</span></div><div class="bonus-item"><strong>Gedeonseck</strong><span>Melhor mirante do Reno</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--belgium)"><img class="flag-img" src="https://flagcdn.com/w40/be.png"> Belgica & <img class="flag-img" src="https://flagcdn.com/w40/nl.png"> Holanda</h4><div class="bonus-list"><div class="bonus-item"><strong>Hautes Fagnes</strong><span>Planalto sub-artico</span></div><div class="bonus-item"><strong>Biesbosch NP</strong><span>Pantanal de mare doce, caiaque entre castores</span></div></div></div>
 </div>
 </section>
 
@@ -336,6 +337,7 @@ footer a{color:var(--accent);text-decoration:none}
 </div>
 </section>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <footer><div class="container"><p>Roteiro criado em abril/2026 &middot; <a href="https://www.globalpetrolprices.com/diesel_prices/Europe/">GlobalPetrolPrices</a> &middot; <a href="https://www.fuel-prices.eu/">Fuel Prices EU</a> &middot; <a href="https://www.ch.ch/en/travel-and-emigrate/holidays-in-switzerland/how-to-behave-in-road-traffic/motorway-vignette/">Vinheta Suica</a></p></div></footer>
 
 <script>
