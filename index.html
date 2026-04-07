@@ -495,12 +495,11 @@ days.forEach(d=>{
 
 // === MAP ===
 const map=L.map('map',{scrollWheelZoom:true}).setView([46.5,4],5);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png',{
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
   attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
   maxZoom:18
 }).addTo(map);
 
-const P=F.replace('?width=640','?width=300').replace(F,F);// map popup helper
 const stops=[
   {lat:40.4168,lng:-3.7038,name:'Madrid',day:1,km:0,time:'Inicio',country:'spain',img:''},
   {lat:41.1947,lng:-1.7831,name:'Monasterio de Piedra',day:1,km:230,time:'2h30 desde Madrid',country:'spain',img:F+'Exterior_del_monasterio-monasterio_de_piedra-nuevalos-2010_(3).JPG?width=300'},
