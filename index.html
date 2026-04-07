@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro Motorhome: Madrid a Amsterdam</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#232735;--border:#2d3148;--text:#e4e7ef;--text-muted:#8b90a5;--accent:#f59e0b;--accent2:#10b981;--accent3:#6366f1;--spain:#e74c3c;--andorra:#3498db;--france:#2563eb;--swiss:#dc2626;--germany:#f59e0b;--belgium:#22c55e;--netherlands:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('Foto%20Caio%20e%20Jess.jpeg') center/cover no-repeat;filter:brightness(.35);transition:transform 8s ease-out}
+.hero:hover .hero-bg{transform:scale(1.05)}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,17,23,.3) 0%,rgba(15,17,23,.6) 50%,rgba(15,17,23,.95) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:2rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;background:linear-gradient(135deg,#f59e0b,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem;letter-spacing:-.02em}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:var(--text-muted);font-weight:300;margin-bottom:2rem}
+.hero-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem}
+.hero-stat .num{font-size:2.5rem;font-weight:800;color:var(--accent);display:block}
+.hero-stat .label{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}
+.scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:bounce 2s infinite;color:var(--text-muted);font-size:1.5rem}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.nav{position:sticky;top:0;z-index:1000;background:rgba(15,17,23,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:.75rem 0}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);padding:.4rem .9rem;border-radius:999px;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+section{padding:4rem 0}
+section h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:.5rem;color:var(--accent)}
+.section-sub{color:var(--text-muted);margin-bottom:2.5rem;font-size:.95rem}
+/* ROUTE */
+.progress-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:var(--surface2);margin:2rem 0 .5rem}
+.progress-seg{height:100%}
+.progress-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-bottom:2rem}
+.route-visual{display:flex;flex-direction:column}
+.route-country{position:relative;padding:1.2rem 1.5rem 1.2rem 3.5rem;border-left:3px solid var(--border);margin-left:1rem}
+.route-country::before{content:'';position:absolute;left:-1.4rem;top:1.2rem;width:28px;height:20px;background:var(--bg) url(attr(data-flag-src)) center/contain no-repeat;border-radius:3px}
+.route-flag{position:absolute;left:-1.4rem;top:1.2rem;width:28px;height:20px;border-radius:3px;background:var(--bg);padding:2px}
+.route-flag img{width:24px;height:16px;border-radius:2px}
+.country-name{font-weight:700;font-size:1rem}
+.country-meta{font-size:.8rem;color:var(--text-muted);margin-bottom:.5rem}
+.country-cities{display:flex;gap:.4rem;flex-wrap:wrap}
+.city-tag{background:var(--surface2);padding:.25rem .6rem;border-radius:999px;font-size:.72rem;border:1px solid var(--border)}
+/* DAY CARDS */
+.days-grid{display:flex;flex-direction:column;gap:1.5rem}
+.day-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+.day-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.day-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;cursor:pointer;user-select:none}
+.day-header-left{display:flex;align-items:center;gap:.8rem}
+.day-num{background:linear-gradient(135deg,var(--accent),#d97706);color:#000;width:2.8rem;height:2.8rem;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0}
+.day-title{font-weight:600;font-size:.95rem}
+.day-date{font-size:.75rem;color:var(--text-muted)}
+.day-badges{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.badge{padding:.2rem .5rem;border-radius:999px;font-size:.68rem;font-weight:600}
+.badge-km{background:rgba(99,102,241,.15);color:#818cf8}
+.badge-time{background:rgba(16,185,129,.15);color:#34d399}
+.day-body{padding:0 1.2rem 1.2rem;display:none}
+.day-card.open .day-body{display:block}
+.day-card.open .day-chevron{transform:rotate(180deg)}
+.day-chevron{transition:transform .2s;color:var(--text-muted);font-size:.8rem}
+.flag-img{width:24px;height:16px;border-radius:2px;object-fit:cover;vertical-align:middle}
+/* PHOTO GALLERY */
+.photo-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem;margin-bottom:1rem}
+.photo-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/10;background:var(--surface2)}
+.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.photo-card:hover img{transform:scale(1.05)}
+.photo-card.fallback{background:linear-gradient(135deg,#1e293b,#334155);display:flex;align-items:center;justify-content:center}
+.photo-card.fallback .photo-label{position:absolute;bottom:0;left:0;right:0;top:auto}
+.photo-label{position:absolute;bottom:0;left:0;right:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:.78rem;font-weight:600;color:#fff}
+/* STOPS */
+.stop{padding:.8rem 0;border-bottom:1px solid var(--border)}
+.stop:last-child{border-bottom:none}
+.stop-name{font-weight:600;color:var(--accent2);margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;font-size:.92rem}
+.stop-type{font-size:.6rem;padding:.12rem .45rem;border-radius:999px;font-weight:600;text-transform:uppercase}
+.waze-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#33ccff,#05b5e4);color:#fff;padding:.6rem 1.2rem;border-radius:10px;text-decoration:none;font-weight:700;font-size:.85rem;margin:.8rem 0;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(5,181,228,.3)}
+.waze-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(5,181,228,.4)}
+.waze-btn svg{width:18px;height:18px;fill:currentColor}
+.directions-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:.8rem 0;padding:.8rem 0;border-top:1px solid var(--border)}
+.type-nature{background:rgba(16,185,129,.15);color:#34d399}
+.type-culture{background:rgba(168,85,247,.15);color:#c084fc}
+.type-food{background:rgba(245,158,11,.15);color:#fbbf24}
+.type-sleep{background:rgba(99,102,241,.15);color:#818cf8}
+.stop ul{list-style:none;padding:0}
+.stop li{padding:.15rem 0 .15rem 1rem;position:relative;font-size:.85rem;color:var(--text-muted)}
+.stop li::before{content:'';position:absolute;left:0;top:.55rem;width:5px;height:5px;border-radius:50%;background:var(--border)}
+.alert{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;display:flex;gap:.6rem;align-items:flex-start;font-size:.85rem}
+.alert-warn{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.05)}
+.alert-icon{font-size:1.1rem;flex-shrink:0}
+/* MAP */
+#map{height:70vh;min-height:500px;border-radius:16px;border:1px solid var(--border);margin-top:1.5rem}
+.leaflet-popup-content-wrapper{background:var(--surface)!important;color:var(--text)!important;border-radius:12px!important;border:1px solid var(--border)!important;box-shadow:0 8px 32px rgba(0,0,0,.4)!important}
+.leaflet-popup-tip{background:var(--surface)!important}
+.leaflet-popup-content{font-family:'Inter',sans-serif!important;font-size:.85rem!important;line-height:1.5!important}
+.popup-title{font-weight:700;color:var(--accent);font-size:.95rem;margin-bottom:.3rem}
+.popup-meta{color:var(--text-muted);font-size:.78rem}
+.popup-img{width:100%;border-radius:8px;margin-bottom:.5rem;max-height:120px;object-fit:cover}
+.map-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;justify-content:center}
+.legend-item{display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--text-muted)}
+.legend-dot{width:12px;height:4px;border-radius:2px}
+/* TABLES */
+.fuel-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+.fuel-table th{text-align:left;padding:.7rem .8rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);border-bottom:2px solid var(--border)}
+.fuel-table td{padding:.6rem .8rem;border-bottom:1px solid var(--border);font-size:.88rem}
+.fuel-table tr:last-child td{border-bottom:none;font-weight:700;color:var(--accent)}
+.flag{font-size:1.1rem;margin-right:.3rem}
+/* GRIDS */
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin:1.5rem 0}
+.cost-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center}
+.cost-card .amount{font-size:1.6rem;font-weight:800;color:var(--accent)}
+.cost-card .desc{font-size:.78rem;color:var(--text-muted);margin-top:.2rem}
+.climate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.8rem;margin:1.5rem 0}
+.climate-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem;text-align:center}
+.climate-card .temp{font-size:1.2rem;font-weight:700;color:var(--accent2)}
+.climate-card .place{font-size:.78rem;color:var(--text-muted)}
+.climate-card .cond{font-size:.72rem;color:var(--text-muted);font-style:italic}
+.lez-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin:1.5rem 0}
+.lez-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem}
+.lez-card h4{font-size:.9rem;margin-bottom:.2rem}
+.lez-type{color:var(--accent2);font-size:.8rem;font-weight:600}
+.lez-how{font-size:.75rem;color:var(--text-muted);margin-top:.2rem}
+.lez-cost{font-size:.78rem;color:var(--accent);font-weight:600}
+.tips-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem;margin:1.5rem 0}
+.tip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;display:flex;gap:.6rem;align-items:flex-start}
+.tip-num{background:var(--accent);color:#000;width:1.6rem;height:1.6rem;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0}
+.tip-text{font-size:.82rem}
+.tip-text strong{color:var(--accent)}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1.5rem 0}
+.app-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem}
+.app-card h4{font-size:.9rem;color:var(--accent2);margin-bottom:.2rem}
+.app-card p{font-size:.78rem;color:var(--text-muted)}
+.bonus-country{margin-bottom:1.2rem}
+.bonus-country h4{font-size:.95rem;margin-bottom:.6rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.bonus-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.6rem}
+.bonus-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem}
+.bonus-item strong{color:var(--accent2);display:block;font-size:.85rem}
+.bonus-item span{font-size:.78rem;color:var(--text-muted)}
+footer{border-top:1px solid var(--border);padding:2rem 0;text-align:center;color:var(--text-muted);font-size:.78rem}
+footer a{color:var(--accent);text-decoration:none}
+@media(max-width:768px){.hero-stats{gap:1rem}.day-header{flex-direction:column;align-items:flex-start;gap:.4rem}.day-badges{justify-content:flex-start}.photo-gallery{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.photo-gallery{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-content">
+<h1>Madrid a Amsterdam</h1>
+<p class="subtitle">16 dias de motorhome por 6 paises &middot; Natureza, cachoeiras & experiencias locais</p>
+<p style="color:var(--text-muted);font-size:.95rem">21 de outubro a 05 de novembro</p>
+<div class="hero-stats">
+<div class="hero-stat"><span class="num">2.870</span><span class="label">Quilometros</span></div>
+<div class="hero-stat"><span class="num">16</span><span class="label">Dias</span></div>
+<div class="hero-stat"><span class="num">6</span><span class="label">Paises</span></div>
+<div class="hero-stat"><span class="num">15+</span><span class="label">Cachoeiras</span></div>
+</div>
+</div>
+<div class="scroll-indicator">&#8595;</div>
+</section>
+
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+<button class="nav-btn active" onclick="scrollTo_('#mapa')">Mapa</button>
+<button class="nav-btn" onclick="scrollTo_('#rota')">Rota</button>
+<button class="nav-btn" onclick="scrollTo_('#roteiro')">Dia a Dia</button>
+<button class="nav-btn" onclick="scrollTo_('#custos')">Custos</button>
+<button class="nav-btn" onclick="scrollTo_('#clima')">Clima</button>
+<button class="nav-btn" onclick="scrollTo_('#lez')">LEZ</button>
+<button class="nav-btn" onclick="scrollTo_('#apps')">Apps</button>
+<button class="nav-btn" onclick="scrollTo_('#bonus')">Spots Bonus</button>
+<button class="nav-btn" onclick="scrollTo_('#dicas')">Dicas</button>
+</div>
+</nav>
+
+<!-- MAPA INTERATIVO -->
+<section id="mapa">
+<div class="container">
+<h2>Mapa Interativo</h2>
+<p class="section-sub">Clique nos marcadores para ver detalhes de cada parada</p>
+<div id="map"></div>
+<div class="map-legend">
+<div class="legend-item"><div class="legend-dot" style="background:var(--spain)"></div>Espanha</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--andorra)"></div>Andorra</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--france)"></div>Franca</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--swiss)"></div>Suica</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--germany)"></div>Alemanha</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--belgium)"></div>Belgica</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--netherlands)"></div>Holanda</div>
+</div>
+</div>
+</section>
+
+<!-- ROTA -->
+<section id="rota" style="background:var(--surface)">
+<div class="container">
+<h2>Rota Geral</h2>
+<p class="section-sub">6 paises, das montanhas ibericas aos canais holandeses</p>
+<div class="progress-bar">
+<div class="progress-seg" style="width:26%;background:var(--spain)"></div>
+<div class="progress-seg" style="width:23%;background:var(--france)"></div>
+<div class="progress-seg" style="width:17.5%;background:var(--swiss)"></div>
+<div class="progress-seg" style="width:9.5%;background:var(--germany)"></div>
+<div class="progress-seg" style="width:9.5%;background:var(--belgium)"></div>
+<div class="progress-seg" style="width:14.5%;background:var(--netherlands)"></div>
+</div>
+<div class="progress-labels"><span>Madrid</span><span>Andorra</span><span>Tarn/Annecy</span><span>Lauterbrunnen</span><span>Reno</span><span>Bruxelas</span><span>Giethoorn</span><span>Amsterdam</span></div>
+<div class="route-visual">
+<div class="route-country" style="border-color:var(--spain)"><div class="route-flag"><img src="https://flagcdn.com/w40/es.png" alt="ES"></div><div class="country-name" style="color:var(--spain)">Espanha + Andorra</div><div class="country-meta">750 km &middot; 3 dias &middot; Diesel ~1,77 EUR/L (Andorra ~1,30)</div><div class="country-cities"><span class="city-tag">Madrid</span><span class="city-tag">Monasterio de Piedra</span><span class="city-tag">Alquezar</span><span class="city-tag">Mont-Rebei</span><span class="city-tag">Andorra</span></div></div>
+<div class="route-country" style="border-color:var(--france)"><div class="route-flag"><img src="https://flagcdn.com/w40/fr.png" alt="FR"></div><div class="country-name" style="color:var(--france)">Franca</div><div class="country-meta">660 km &middot; 2 dias &middot; Diesel ~2,20 EUR/L</div><div class="country-cities"><span class="city-tag">Foix</span><span class="city-tag">Gorges du Tarn</span><span class="city-tag">Gorges de l'Ardeche</span><span class="city-tag">Lyon</span><span class="city-tag">Lac d'Annecy</span></div></div>
+<div class="route-country" style="border-color:var(--swiss)"><div class="route-flag"><img src="https://flagcdn.com/w40/ch.png" alt="CH"></div><div class="country-name" style="color:var(--swiss)">Suica</div><div class="country-meta">500 km &middot; 3 dias &middot; Vinheta CHF 40</div><div class="country-cities"><span class="city-tag">Gruyeres</span><span class="city-tag">Lauterbrunnen</span><span class="city-tag">Murren</span><span class="city-tag">Brienz</span><span class="city-tag">Zurique</span><span class="city-tag">Rheinfall</span></div></div>
+<div class="route-country" style="border-color:var(--germany)"><div class="route-flag"><img src="https://flagcdn.com/w40/de.png" alt="DE"></div><div class="country-name" style="color:var(--germany)">Alemanha</div><div class="country-meta">280 km &middot; 1 dia &middot; Diesel ~2,20 EUR/L</div><div class="country-cities"><span class="city-tag">Vale do Reno (UNESCO)</span><span class="city-tag">Bacharach</span><span class="city-tag">Koblenz</span></div></div>
+<div class="route-country" style="border-color:var(--belgium)"><div class="route-flag"><img src="https://flagcdn.com/w40/be.png" alt="BE"></div><div class="country-name" style="color:var(--belgium)">Belgica</div><div class="country-meta">280 km &middot; 1 dia &middot; Diesel ~2,23 EUR/L</div><div class="country-cities"><span class="city-tag">Ninglinspo</span><span class="city-tag">Bruxelas</span></div></div>
+<div class="route-country" style="border-color:var(--netherlands)"><div class="route-flag"><img src="https://flagcdn.com/w40/nl.png" alt="NL"></div><div class="country-name" style="color:var(--netherlands)">Holanda</div><div class="country-meta">600 km &middot; 6 dias &middot; Diesel ~2,46 EUR/L</div><div class="country-cities"><span class="city-tag">Kinderdijk</span><span class="city-tag">Rotterdam</span><span class="city-tag">Delft</span><span class="city-tag">Scheveningen</span><span class="city-tag">Leiden</span><span class="city-tag">Haarlem</span><span class="city-tag">Zaanse Schans</span><span class="city-tag">Giethoorn</span><span class="city-tag">Hoge Veluwe</span><span class="city-tag">Utrecht</span><span class="city-tag">Amsterdam</span></div></div>
+</div>
+</div>
+</section>
+
+<!-- ROTEIRO DIA A DIA -->
+<section id="roteiro">
+<div class="container">
+<h2>Roteiro Dia a Dia</h2>
+<p class="section-sub">Clique em cada dia para ver fotos e detalhes</p>
+<div class="days-grid" id="daysContainer"></div>
+</div>
+</section>
+
+<!-- CUSTOS -->
+<section id="custos" style="background:var(--surface)">
+<div class="container">
+<h2>Custos Estimados</h2>
+<p class="section-sub">Precos de referencia abril/2026</p>
+<div style="overflow-x:auto">
+<table class="fuel-table"><thead><tr><th>Pais</th><th>Diesel/L</th><th>Km</th><th>Litros</th><th>Custo</th></tr></thead><tbody>
+<tr><td><span class="flag">&#127466;&#127480;</span>Espanha</td><td>~1,77</td><td>600</td><td>72 L</td><td>~127 EUR</td></tr>
+<tr><td><span class="flag">&#127462;&#127465;</span>Andorra</td><td>~1,30</td><td>50</td><td>tanque</td><td>~85 EUR</td></tr>
+<tr><td><span class="flag">&#127467;&#127479;</span>Franca</td><td>~2,20</td><td>700</td><td>84 L</td><td>~185 EUR</td></tr>
+<tr><td><span class="flag">&#127464;&#127469;</span>Suica</td><td>~2,20 CHF</td><td>200</td><td>24 L</td><td>~53 EUR</td></tr>
+<tr><td><span class="flag">&#127465;&#127466;</span>Alemanha</td><td>~2,20</td><td>300</td><td>36 L</td><td>~79 EUR</td></tr>
+<tr><td><span class="flag">&#127463;&#127466;</span>Belgica</td><td>~2,23</td><td>350</td><td>42 L</td><td>~94 EUR</td></tr>
+<tr><td><span class="flag">&#127475;&#127473;</span>Holanda</td><td>~2,46</td><td>210</td><td>25 L</td><td>~62 EUR</td></tr>
+<tr><td colspan="3"><strong>TOTAL</strong></td><td><strong>~289 L</strong></td><td><strong>~685 EUR</strong></td></tr>
+</tbody></table></div>
+<h3 style="font-size:1rem;margin:2rem 0 1rem">Resumo Total (2 pessoas)</h3>
+<div class="cost-grid">
+<div class="cost-card"><div class="amount">~685</div><div class="desc">Combustivel</div></div>
+<div class="cost-card"><div class="amount">~120</div><div class="desc">Pedagios</div></div>
+<div class="cost-card"><div class="amount">~160</div><div class="desc">Pernoites</div></div>
+<div class="cost-card"><div class="amount">~700</div><div class="desc">Alimentacao</div></div>
+<div class="cost-card"><div class="amount">~150</div><div class="desc">Atividades</div></div>
+<div class="cost-card" style="border-color:var(--accent)"><div class="amount" style="font-size:1.4rem">~3.400 EUR</div><div class="desc">TOTAL c/ aluguel</div></div>
+</div>
+</div>
+</section>
+
+<!-- CLIMA -->
+<section id="clima">
+<div class="container">
+<h2>Clima Out/Nov</h2>
+<div class="climate-grid">
+<div class="climate-card"><div class="temp">12-20&deg;C</div><div class="place">Madrid</div><div class="cond">Seco</div></div>
+<div class="climate-card"><div class="temp">3-12&deg;C</div><div class="place">Pirineus</div><div class="cond">Frio, neve</div></div>
+<div class="climate-card"><div class="temp">10-18&deg;C</div><div class="place">Sul Franca</div><div class="cond">Dourado</div></div>
+<div class="climate-card"><div class="temp">2-10&deg;C</div><div class="place">Alpes</div><div class="cond">Frio</div></div>
+<div class="climate-card"><div class="temp">5-13&deg;C</div><div class="place">Reno</div><div class="cond">Mistico</div></div>
+<div class="climate-card"><div class="temp">6-13&deg;C</div><div class="place">Benelux</div><div class="cond">Umido</div></div>
+</div>
+</div>
+</section>
+
+<!-- LEZ -->
+<section id="lez" style="background:var(--surface)">
+<div class="container">
+<h2>Zonas de Baixa Emissao</h2>
+<p class="section-sub">Providenciar ANTES da viagem - multas de 68-350 EUR</p>
+<div class="lez-grid">
+<div class="lez-card"><h4>&#127467;&#127479; Lyon</h4><div class="lez-type">Crit'Air</div><div class="lez-how">certificat-air.gouv.fr</div><div class="lez-cost">3,72 EUR</div></div>
+<div class="lez-card"><h4>&#127465;&#127466; Alemanha</h4><div class="lez-type">Umweltplakette</div><div class="lez-how">Online ou TUV/DEKRA</div><div class="lez-cost">~5-15 EUR</div></div>
+<div class="lez-card"><h4>&#127463;&#127466; Bruxelas</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.brussels</div><div class="lez-cost">Gratuito</div></div>
+<div class="lez-card"><h4>&#127463;&#127466; Antuérpia</h4><div class="lez-type">LEZ</div><div class="lez-how">lez.antwerpen.be</div><div class="lez-cost">Gratuito</div></div>
+<div class="lez-card"><h4>&#127475;&#127473; Amsterdam</h4><div class="lez-type">Milieuzones</div><div class="lez-how">milieuzones.nl</div><div class="lez-cost">Verificar</div></div>
+</div>
+</div>
+</section>
+
+<!-- APPS -->
+<section id="apps">
+<div class="container">
+<h2>Apps Essenciais</h2>
+<div class="apps-grid">
+<div class="app-card"><h4>Park4Night</h4><p>Melhor app para motorhome - areas gratuitas e pagas</p></div>
+<div class="app-card"><h4>Campercontact</h4><p>Excelente para Benelux</p></div>
+<div class="app-card"><h4>Stellplatz.info</h4><p>Melhor para Alemanha</p></div>
+<div class="app-card"><h4>Maps Offline</h4><p>Baixar TODOS os paises</p></div>
+<div class="app-card"><h4>ViaMichelin</h4><p>Pedagios e custos</p></div>
+<div class="app-card"><h4>France Passion</h4><p>Pernoites gratis em fazendas (~30 EUR/ano)</p></div>
+</div>
+</div>
+</section>
+
+<!-- BONUS -->
+<section id="bonus" style="background:var(--surface)">
+<div class="container">
+<h2>Spots Bonus</h2>
+<p class="section-sub">Se tiverem tempo extra</p>
+<div class="bonus-country"><h4 style="color:var(--spain)">&#127466;&#127480; Espanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Ordesa y Monte Perdido</strong><span>Parque Nacional UNESCO</span></div><div class="bonus-item"><strong>Aiguestortes</strong><span>Lagos glaciais cristalinos</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--france)">&#127467;&#127479; Franca</h4><div class="bonus-list"><div class="bonus-item"><strong>Cirque de Navacelles</strong><span>Mini-Grand Canyon</span></div><div class="bonus-item"><strong>Cascades du Herisson</strong><span>7 cachoeiras no Jura</span></div><div class="bonus-item"><strong>Cascade d'Angon</strong><span>Cai no Lac d'Annecy</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--germany)">&#127465;&#127466; Alemanha</h4><div class="bonus-list"><div class="bonus-item"><strong>Burg Eltz</strong><span>Castelo medieval na floresta</span></div><div class="bonus-item"><strong>Wutachschlucht</strong><span>Desfiladeiro selvagem</span></div><div class="bonus-item"><strong>Gedeonseck</strong><span>Melhor mirante do Reno</span></div></div></div>
+<div class="bonus-country"><h4 style="color:var(--belgium)">&#127463;&#127466; Belgica & &#127475;&#127473; Holanda</h4><div class="bonus-list"><div class="bonus-item"><strong>Hautes Fagnes</strong><span>Planalto sub-artico</span></div><div class="bonus-item"><strong>Hoge Veluwe NP</strong><span>Bikes gratis + Van Gogh</span></div></div></div>
+</div>
+</section>
+
+<!-- DICAS -->
+<section id="dicas">
+<div class="container">
+<h2>Dicas Importantes</h2>
+<div class="tips-list">
+<div class="tip"><div class="tip-num">1</div><div class="tip-text"><strong>Tanque em Andorra</strong> 1,30 vs 2,20 EUR/L</div></div>
+<div class="tip"><div class="tip-num">2</div><div class="tip-text"><strong>Outono perfeito</strong> Menos turistas, cores incriveis</div></div>
+<div class="tip"><div class="tip-num">3</div><div class="tip-text"><strong>Anoitece ~17h30</strong> Chegar antes das 16h</div></div>
+<div class="tip"><div class="tip-num">4</div><div class="tip-text"><strong>Aquecimento</strong> Cobertores + gas</div></div>
+<div class="tip"><div class="tip-num">5</div><div class="tip-text"><strong>Tanques</strong> Esvaziar a cada 2-3 dias</div></div>
+<div class="tip"><div class="tip-num">6</div><div class="tip-text"><strong>Gelo matinal</strong> Possivel em montanha</div></div>
+<div class="tip"><div class="tip-num">7</div><div class="tip-text"><strong>Seguro</strong> Cobertura 6 paises</div></div>
+<div class="tip"><div class="tip-num">8</div><div class="tip-text"><strong>Documentos</strong> Passaporte + green card</div></div>
+<div class="tip"><div class="tip-num">9</div><div class="tip-text"><strong>Campings fecham</strong> Reservar antecipado</div></div>
+<div class="tip"><div class="tip-num">10</div><div class="tip-text"><strong>LEZ obrigatorio</strong> Adesivos antes de sair</div></div>
+<div class="tip"><div class="tip-num">11</div><div class="tip-text"><strong>France Passion</strong> Dormir gratis em fazendas</div></div>
+<div class="tip"><div class="tip-num">12</div><div class="tip-text"><strong>Pneus inverno</strong> Obrigatorio em montanha</div></div>
+</div>
+</div>
+</section>
+
+<footer><div class="container"><p>Roteiro criado em abril/2026 &middot; <a href="https://www.globalpetrolprices.com/diesel_prices/Europe/">GlobalPetrolPrices</a> &middot; <a href="https://www.fuel-prices.eu/">Fuel Prices EU</a> &middot; <a href="https://www.ch.ch/en/travel-and-emigrate/holidays-in-switzerland/how-to-behave-in-road-traffic/motorway-vignette/">Vinheta Suica</a></p></div></footer>
+
+<script>
+// === DATA ===
+const F='https://commons.wikimedia.org/wiki/Special:FilePath/';
+const S='?width=640';
+const FL='https://flagcdn.com/w40/';
+const flags={es:FL+'es.png',ad:FL+'ad.png',fr:FL+'fr.png',ch:FL+'ch.png',de:FL+'de.png',be:FL+'be.png',nl:FL+'nl.png'};
+const days = [
+  {n:1,title:'Madrid \u2192 Monasterio de Piedra',date:'21/10 (ter)',km:230,time:'2h30',flagCode:'es',
+   dest:{lat:41.1947,lng:-1.7831,label:'Monasterio de Piedra'},
+   photos:[{src:F+'Exterior_del_monasterio-monasterio_de_piedra-nuevalos-2010_(3).JPG'+S,label:'Monasterio de Piedra'}],
+   stops:[
+     {name:'Madrid (manha)',type:'culture',items:['Pegar motorhome cedo','Gran Via: a principal avenida - lojas, moda, souvenirs','El Rastro (se domingo): maior mercado de pulgas da Espanha','Mercado de San Miguel: gastronomia local (jamon, queijos, tapas)','Puerta del Sol e Plaza Mayor: coracao de Madrid']},
+     {name:'Monasterio de Piedra (tarde)',type:'nature',items:['Cola de Caballo - cachoeira de 50m','Gruta Iris - caminhada atras da cachoeira','3-4 horas no parque - Entrada: ~17 EUR/pessoa']},
+     {name:'Pernoite',type:'sleep',items:['Camping Lago Resort (6km) - ~16 EUR/noite']}
+   ]},
+  {n:2,title:'Mon. Piedra \u2192 Alquezar',date:'22/10 (qua)',km:220,time:'3h',flagCode:'es',
+   dest:{lat:42.1734,lng:0.0275,label:'Alquezar'},
+   photos:[{src:F+'Alquezar_m1.jpg'+S,label:'Alquezar - Serra de Guara'}],
+   stops:[
+     {name:'Alquezar',type:'nature',items:['Vilarejo medieval em penhascos sobre o Rio Vero','Pasarelas de madeira ao longo de paredoes','Piscinas naturais cristalinas']}
+   ]},
+  {n:3,title:'Alquezar \u2192 Mont-Rebei \u2192 Andorra',date:'23/10 (qui)',km:300,time:'4h30',flagCode:'es,ad',
+   dest:{lat:42.5063,lng:1.5218,label:'Andorra (Ordino)'},
+   alert:{icon:'\u26FD',text:'ENCHER O TANQUE em Andorra! Diesel ~1,30 EUR/L vs ~2,20 na Franca. Economia de ~63 EUR!'},
+   photos:[{src:F+'Congost_de_Mont-rebei.JPG'+S,label:'Congost de Mont-Rebei'}],
+   stops:[
+     {name:'Congost de Mont-Rebei',type:'nature',items:['Desfiladeiro mais espetacular dos Pirineus','Passarelas escavadas na rocha sobre turquesa','Trilha ~3h ida e volta']},
+     {name:'La Seu d\'Urgell',type:'culture',items:['Catedral romanica seculo XII - parada rapida']},
+     {name:'Andorra',type:'nature',items:['Estanys de Tristaina: 3 lagos alpinos (se houver luz)','ENCHER TANQUE de diesel aqui!','Pernoite em Ordino (mais tranquilo)']}
+   ]},
+  {n:4,title:'Andorra \u2192 Foix \u2192 Gorges du Tarn',date:'24/10 (sex)',km:280,time:'4h',flagCode:'fr',
+   dest:{lat:44.3667,lng:3.4167,label:'Gorges du Tarn (Sainte-Enimie)'},
+   alert:{icon:'\u26A0\uFE0F',text:'Sair pelo SUL via Bourg-Madame (1.300m). Evitar Port d\'Envalira (2.408m - neve).',warn:true},
+   photos:[{src:F+'Foix_-_Ch%C3%A2teau_et_ville.jpg'+S,label:'Castelo de Foix'},{src:F+'01_Saint-Georges-de-L%C3%A9v%C3%A9jac_-_Gorges_du_Tarn_2.JPG'+S,label:'Gorges du Tarn'}],
+   stops:[
+     {name:'Foix',type:'culture',items:['Castelo medieval no topo de rochedo','Parada rapida de 1h']},
+     {name:'Gorges du Tarn',type:'nature',items:['Canyon mais bonito da Franca - paredes de 500m','Rio turquesa, Sainte-Enimie medieval na rocha']}
+   ]},
+  {n:5,title:'Gorges du Tarn \u2192 Ardeche \u2192 Lyon \u2192 Annecy',date:'25/10 (sab)',km:380,time:'5h',flagCode:'fr',
+   dest:{lat:45.8614,lng:6.1672,label:'Lac d\'Annecy'},
+   alert:{icon:'\u{1F697}',text:'Dia longo de estrada - sair cedo! Manha no Tarn, Ardeche rapido, almoco Lyon, dormir Annecy.',warn:true},
+   photos:[{src:F+'Pont_d%27Arc_arch.JPG'+S,label:'Pont d\'Arc - Ardeche'},{src:F+'Lake_Annecy.JPG'+S,label:'Lac d\'Annecy'}],
+   stops:[
+     {name:'Gorges du Tarn (manha)',type:'nature',items:['D907: Point Sublime, Castelbouc']},
+     {name:'Gorges de l\'Ardeche',type:'nature',items:['D290: Pont d\'Arc arco natural, mirantes rapidos']},
+     {name:'Lyon (almoco)',type:'food',items:['Bouchon lyonnais autentico - parada de 1h']},
+     {name:'Lac d\'Annecy',type:'nature',items:['Lago mais puro da Europa - chegada ao entardecer','Col de la Forclaz: vista panoramica']}
+   ]},
+  {n:6,title:'Lac d\'Annecy \u2192 Gruyeres \u2192 Lauterbrunnen',date:'26/10 (dom)',km:250,time:'3h30',flagCode:'ch',
+   dest:{lat:46.5937,lng:7.9083,label:'Lauterbrunnen'},
+   alert:{icon:'\uD83C\uDFAB',text:'Comprar VINHETA SUICA antes da autoestrada! (CHF 40)',warn:true},
+   photos:[{src:F+'Gruy%C3%A8res_et_sa_cit%C3%A9_m%C3%A9di%C3%A9vale.jpg'+S,label:'Gruyeres'},{src:F+'1_lauterbrunnen_valley_wengen_2022.jpg'+S,label:'Lauterbrunnen'}],
+   stops:[
+     {name:'Gruyeres',type:'food',items:['Vilarejo medieval do queijo','Queijaria artesanal local']},
+     {name:'Lauterbrunnen',type:'nature',items:['Vale das 72 Cachoeiras','Staubbach Falls: 300m queda livre','Chegada ao entardecer - visual magico']}
+   ]},
+  {n:7,title:'Lauterbrunnen (dia de exploracao)',date:'27/10 (seg)',km:20,time:'Dia livre',flagCode:'ch',
+   dest:{lat:46.5937,lng:7.9083,label:'Lauterbrunnen (exploracao)'},
+   photos:[{src:F+'1_lauterbrunnen_valley_wengen_2022.jpg'+S,label:'Vale de Lauterbrunnen'}],
+   stops:[
+     {name:'Murren',type:'nature',items:['Vilarejo sem carros no topo do penhasco','Vista Eiger/Monch/Jungfrau - espetacular','Funicular + trem panoramico']},
+     {name:'Staubbach & Trummelbach Falls',type:'nature',items:['Staubbach: 300m queda livre no vale','Trummelbach: 10 cachoeiras DENTRO da montanha','Verificar abertura - pode fechar fim outubro']},
+     {name:'Trilha pelo vale',type:'nature',items:['Caminhar ate Stechelberg pelo fundo do vale','Inspiracao de Tolkien para Rivendell']}
+   ]},
+  {n:8,title:'Lauterbrunnen \u2192 Brienz \u2192 Zurique \u2192 Rheinfall',date:'28/10 (ter)',km:230,time:'3h',flagCode:'ch',
+   dest:{lat:47.6779,lng:8.6155,label:'Rheinfall (Schaffhausen)'},
+   photos:[{src:F+'Aerial_image_of_Lake_Brienz_(view_from_the_southwest).jpg'+S,label:'Lago de Brienz'},{src:F+'Altstadt_Z%C3%BCrich_2015.jpg'+S,label:'Zurique'}],
+   stops:[
+     {name:'Lago de Brienz',type:'nature',items:['Giessbach Falls: 500m caindo no lago turquesa','Agua glacial azul irreal']},
+     {name:'Zurique',type:'culture',items:['Lindenhof mirante, Bahnhofstrasse','Almoco rapido no centro']},
+     {name:'Rheinfall',type:'nature',items:['MAIOR cachoeira da Europa - 150m x 23m','Barco ate a rocha central (~7 CHF)','Pernoite proximo a fronteira alema']}
+   ]},
+  {n:9,title:'Rheinfall \u2192 Vale do Reno \u2192 Koblenz',date:'29/10 (qua)',km:280,time:'3h30',flagCode:'de',
+   dest:{lat:50.3569,lng:7.589,label:'Koblenz'},
+   photos:[{src:F+'Bacharach_from_the_Postenturm.jpg'+S,label:'Bacharach - Vale do Reno'}],
+   stops:[
+     {name:'Vale do Reno (UNESCO)',type:'nature',items:['B9: 65km com 40 castelos em colinas','Loreley: rochedo lendario 120m','Vinhedos dourados outubro = MAGICO']},
+     {name:'Bacharach',type:'food',items:['Vilarejo medieval perfeito no Reno','Riesling local numa Weinstube']},
+     {name:'Koblenz',type:'culture',items:['Deutsches Eck: confluencia Reno e Mosela','Ehrenbreitstein (funicular sobre o rio)']}
+   ]},
+  {n:10,title:'Koblenz \u2192 Ardenas \u2192 Bruxelas',date:'30/10 (qui)',km:280,time:'3h30',flagCode:'be',
+   dest:{lat:50.8503,lng:4.3517,label:'Bruxelas'},
+   photos:[{src:F+'Grand-Place,_Brussels_-_panorama,_June_2018.jpg'+S,label:'Grand Place - Bruxelas'}],
+   stops:[
+     {name:'Trilha do Ninglinspo',type:'nature',items:['Unico "rio de montanha" da Belgica','6km: cachoeiras, piscinas, musgos - IR CEDO']},
+     {name:'Bruxelas',type:'food',items:['Grand Place (UNESCO)','Frites, waffles, Delirium Cafe','Waterzooi num restaurante local']}
+   ]},
+  {n:11,title:'Bruxelas \u2192 Kinderdijk \u2192 Rotterdam \u2192 Delft',date:'31/10 (sex)',km:180,time:'2h30',flagCode:'nl',
+   dest:{lat:52.0116,lng:4.3571,label:'Delft'},
+   photos:[{src:F+'KinderdijkMolens02.jpg'+S,label:'Kinderdijk'},{src:F+'A_view_of_Rotterdam,_taken_from_the_roof_of_the_Maassilo,_Rotterdam,_The_Netherlands.jpg'+S,label:'Rotterdam'}],
+   stops:[
+     {name:'Kinderdijk (UNESCO)',type:'nature',items:['19 moinhos historicos - paisagem classica','Luz dourada outubro, poucos turistas']},
+     {name:'Rotterdam',type:'culture',items:['Casas Cubo, Markthal, Ponte Erasmus','Fenix Food Factory']},
+     {name:'Delft',type:'culture',items:['Mini-Amsterdam sem multidoes','Canais, ceramica Delftware']}
+   ]},
+  {n:12,title:'Delft \u2192 Den Haag \u2192 Scheveningen \u2192 Leiden',date:'01/11 (sab)',km:40,time:'1h',flagCode:'nl',
+   dest:{lat:52.1601,lng:4.497,label:'Leiden'},
+   photos:[{src:F+'Den_Haag_Scheveningen_Pier_32.jpg'+S,label:'Scheveningen'},{src:F+'Rapenburg_Leiden_Centrum.jpg'+S,label:'Leiden'}],
+   stops:[
+     {name:'Den Haag',type:'culture',items:['Binnenhof: parlamento holandes historico','Mauritshuis: museu com Vermeer e Rembrandt']},
+     {name:'Scheveningen',type:'nature',items:['Praia mais famosa da Holanda','Pier sobre o Mar do Norte - visual dramatico no outono','Caminhar pela orla com vento do mar']},
+     {name:'Leiden',type:'culture',items:['Cidade universitaria com canais charmosos','Onde os Peregrinos viveram antes de ir a America','Hortus Botanicus: jardim botanico mais antigo da Holanda']}
+   ]},
+  {n:13,title:'Leiden \u2192 Haarlem \u2192 Zaanse Schans',date:'02/11 (dom)',km:50,time:'1h',flagCode:'nl',
+   dest:{lat:52.4733,lng:4.8167,label:'Zaanse Schans'},
+   photos:[{src:F+'HaarlemGroteMarkt1.JPG'+S,label:'Haarlem'},{src:F+'Zaanstad_Zaanse_Schans_22.jpg'+S,label:'Zaanse Schans'}],
+   stops:[
+     {name:'Haarlem',type:'culture',items:['"A Amsterdam que Amsterdam costumava ser"','Grote Markt com igreja de Sao Bavo','Canais medievais sem turistas']},
+     {name:'Zaanse Schans',type:'culture',items:['Moinhos de vento tradicionais em funcionamento','Fabricas de queijo e tamancos artesanais','Casas de madeira verdes tipicas']}
+   ]},
+  {n:14,title:'Zaanse Schans \u2192 Giethoorn',date:'03/11 (seg)',km:130,time:'1h30',flagCode:'nl',
+   dest:{lat:52.7213,lng:6.075,label:'Giethoorn'},
+   photos:[{src:F+'Giethoorn_Netherlands_flckr05.jpg'+S,label:'Giethoorn - Veneza do Norte'}],
+   stops:[
+     {name:'Giethoorn',type:'nature',items:['"Veneza da Holanda" - vilarejo SEM estradas','So acessivel de barco ou a pe pelas pontes','Alugar um barco eletrico e navegar pelos canais','Casas de telhado de palha, jardins coloridos','Em novembro: neblina sobre os canais = magico','Jantar num restaurante local a beira d\'agua']}
+   ]},
+  {n:15,title:'Giethoorn \u2192 Hoge Veluwe National Park',date:'04/11 (ter)',km:120,time:'1h30',flagCode:'nl',
+   dest:{lat:52.0833,lng:5.8333,label:'Hoge Veluwe NP'},
+   photos:[{src:F+'Sand_Area_Hoge_Veluwe.jpg'+S,label:'Hoge Veluwe National Park'}],
+   stops:[
+     {name:'Hoge Veluwe NP',type:'nature',items:['Maior reserva natural da Holanda','Bicicletas brancas GRATUITAS para explorar','Dunas, charnecas, florestas - paisagem unica','Museu Kroller-Muller: maior colecao Van Gogh fora de Amsterdam','Cervos e javalis selvagens','Dia inteiro de exploracao ao ar livre']}
+   ]},
+  {n:16,title:'Hoge Veluwe \u2192 Utrecht \u2192 Amsterdam',date:'05/11 (qua)',km:80,time:'1h',flagCode:'nl',
+   dest:{lat:52.3676,lng:4.9041,label:'Amsterdam'},
+   photos:[{src:F+'Amsterdam_Canals_-_July_2006.jpg'+S,label:'Amsterdam'}],
+   stops:[
+     {name:'Utrecht',type:'culture',items:['Canais com wharfside cafes ABAIXO do nivel da rua','Dom Tower: torre gotica mais alta da Holanda','Vibe universitaria, menos turistico que Amsterdam']},
+     {name:'Amsterdam',type:'culture',items:['Devolver motorhome','Jordaan: bairro mais charmoso','Vondelpark no outono','Brown cafe de despedida']}
+   ]}
+];
+
+// === RENDER DAYS ===
+const dc=document.getElementById('daysContainer');
+days.forEach(d=>{
+  const typeMap={nature:'type-nature',culture:'type-culture',food:'type-food',sleep:'type-sleep'};
+  const typeLabel={nature:'Natureza',culture:'Cultura',food:'Gastronomia',sleep:'Dormir'};
+  let alertHtml='';
+  if(d.alert) alertHtml=`<div class="alert ${d.alert.warn?'alert-warn':''}"><span class="alert-icon">${d.alert.icon}</span><span>${d.alert.text}</span></div>`;
+  let photosHtml=d.photos.map(p=>`<div class="photo-card"><img src="${p.src}" alt="${p.label}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.parentElement.classList.add('fallback');this.style.display='none'"><div class="photo-label">${p.label}</div></div>`).join('');
+  let stopsHtml=d.stops.map(s=>`<div class="stop"><div class="stop-name">${s.name} <span class="stop-type ${typeMap[s.type]}">${typeLabel[s.type]}</span></div><ul>${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('');
+  const wazeUrl=d.dest?`https://waze.com/ul?ll=${d.dest.lat},${d.dest.lng}&navigate=yes&zoom=12`:'';
+  const gmapsUrl=d.dest?`https://www.google.com/maps/dir/?api=1&destination=${d.dest.lat},${d.dest.lng}&travelmode=driving`:'';
+  const directionsHtml=d.dest?`<div class="directions-row" onclick="event.stopPropagation()">
+    <a class="waze-btn" href="${wazeUrl}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.54 6.63c-1.2-1.19-2.87-1.96-4.61-2.12C14.18 3.24 12.13 3 12 3c-.13 0-2.18.24-3.93 1.51C6.33 5.67 4.66 6.44 3.46 7.63 1.71 9.38 1 11.72 1 14c0 1.59.37 3.04 1.04 4.26.47.85 1.09 1.58 1.82 2.15.55.43 1.43.59 2.14.59.72 0 1.32-.37 1.71-.97.26-.39.42-.87.42-1.38 0-.35-.08-.69-.22-1-.14-.31-.22-.65-.22-1 0-1.1.9-2 2-2s2 .9 2 2c0 .35-.08.69-.22 1-.14.31-.22.65-.22 1 0 .51.16.99.42 1.38.39.6.99.97 1.71.97.71 0 1.59-.16 2.14-.59.73-.57 1.35-1.3 1.82-2.15C20.63 17.04 21 15.59 21 14c0-2.28-.71-4.62-2.46-6.37zM8.5 14c-.83 0-1.5-.67-1.5-1.5S7.67 11 8.5 11s1.5.67 1.5 1.5S9.33 14 8.5 14zm7 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>Ir com Waze</a>
+    <a class="waze-btn" href="${gmapsUrl}" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#34a853,#1b8a3e)"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Google Maps</a>
+    <span style="font-size:.75rem;color:var(--text-muted)">Destino: ${d.dest.label}</span>
+  </div>`:'';;
+  dc.innerHTML+=`<div class="day-card${d.n===1?' open':''}" onclick="toggleDay(this)">
+    <div class="day-header"><div class="day-header-left"><div class="day-num">${d.n}</div><div><div class="day-title">${d.title}</div><div class="day-date">${d.date}</div></div></div>
+    <div class="day-badges"><span class="badge badge-km">${d.km} km</span><span class="badge badge-time">${d.time}</span>${d.flagCode.split(',').map(c=>`<img class="flag-img" src="${flags[c]}" alt="${c.toUpperCase()}">`).join('')}<span class="day-chevron">\u25BC</span></div></div>
+    <div class="day-body">${alertHtml}<div class="photo-gallery">${photosHtml}</div>${stopsHtml}${directionsHtml}</div></div>`;
+});
+
+// === MAP ===
+const map=L.map('map',{scrollWheelZoom:true}).setView([46.5,4],5);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom:18
+}).addTo(map);
+
+const P=F.replace('?width=640','?width=300').replace(F,F);// map popup helper
+const stops=[
+  {lat:40.4168,lng:-3.7038,name:'Madrid',day:1,km:0,time:'Inicio',country:'spain',img:''},
+  {lat:41.1947,lng:-1.7831,name:'Monasterio de Piedra',day:1,km:230,time:'2h30 desde Madrid',country:'spain',img:F+'Exterior_del_monasterio-monasterio_de_piedra-nuevalos-2010_(3).JPG?width=300'},
+  {lat:42.1734,lng:0.0275,name:'Alquezar',day:2,km:220,time:'3h desde Mon. Piedra',country:'spain',img:F+'Alquezar_m1.jpg?width=300'},
+  {lat:42.0869,lng:0.7278,name:'Congost de Mont-Rebei',day:3,km:100,time:'1h30 desde Alquezar',country:'spain',img:F+'Congost_de_Mont-rebei.JPG?width=300'},
+  {lat:42.5063,lng:1.5218,name:'Andorra',day:3,km:150,time:'2h desde Mont-Rebei',country:'spain',img:''},
+  {lat:42.9661,lng:1.6053,name:'Foix',day:4,km:120,time:'2h desde Andorra',country:'france',img:F+'Foix_-_Ch%C3%A2teau_et_ville.jpg?width=300'},
+  {lat:44.3667,lng:3.4167,name:'Gorges du Tarn',day:4,km:160,time:'2h desde Foix',country:'france',img:F+'01_Saint-Georges-de-L%C3%A9v%C3%A9jac_-_Gorges_du_Tarn_2.JPG?width=300'},
+  {lat:44.4069,lng:4.3931,name:'Gorges de l\'Ardeche',day:5,km:150,time:'2h desde Tarn',country:'france',img:F+'Pont_d%27Arc_arch.JPG?width=300'},
+  {lat:45.764,lng:4.8357,name:'Lyon',day:5,km:150,time:'2h desde Ardeche',country:'france',img:''},
+  {lat:45.8614,lng:6.1672,name:'Lac d\'Annecy',day:5,km:130,time:'1h30 desde Lyon',country:'france',img:F+'Lake_Annecy.JPG?width=300'},
+  {lat:46.5834,lng:7.0819,name:'Gruyeres',day:6,km:120,time:'1h30 desde Annecy',country:'swiss',img:F+'Gruy%C3%A8res_et_sa_cit%C3%A9_m%C3%A9di%C3%A9vale.jpg?width=300'},
+  {lat:46.5937,lng:7.9083,name:'Lauterbrunnen',day:6,km:130,time:'2h desde Gruyeres',country:'swiss',img:F+'1_lauterbrunnen_valley_wengen_2022.jpg?width=300'},
+  {lat:46.754,lng:8.0429,name:'Lago de Brienz',day:8,km:30,time:'30min',country:'swiss',img:F+'Aerial_image_of_Lake_Brienz_(view_from_the_southwest).jpg?width=300'},
+  {lat:47.3769,lng:8.5417,name:'Zurique',day:8,km:150,time:'2h desde Brienz',country:'swiss',img:F+'Altstadt_Z%C3%BCrich_2015.jpg?width=300'},
+  {lat:47.6779,lng:8.6155,name:'Rheinfall',day:8,km:50,time:'40min desde Zurique',country:'swiss',img:''},
+  {lat:50.0569,lng:7.7694,name:'Bacharach (Vale do Reno)',day:9,km:200,time:'2h30 desde Rheinfall',country:'germany',img:F+'Bacharach_from_the_Postenturm.jpg?width=300'},
+  {lat:50.3569,lng:7.589,name:'Koblenz',day:9,km:50,time:'40min desde Bacharach',country:'germany',img:''},
+  {lat:50.3833,lng:5.8667,name:'Ninglinspo (Ardenas)',day:10,km:150,time:'1h30 desde Koblenz',country:'belgium',img:''},
+  {lat:50.8503,lng:4.3517,name:'Bruxelas',day:10,km:130,time:'1h30 desde Ardenas',country:'belgium',img:F+'Grand-Place,_Brussels_-_panorama,_June_2018.jpg?width=300'},
+  {lat:51.8836,lng:4.6381,name:'Kinderdijk',day:11,km:100,time:'1h30 desde Bruxelas',country:'netherlands',img:F+'KinderdijkMolens02.jpg?width=300'},
+  {lat:51.9244,lng:4.4777,name:'Rotterdam',day:11,km:20,time:'20min',country:'netherlands',img:''},
+  {lat:52.0116,lng:4.3571,name:'Delft',day:11,km:15,time:'15min',country:'netherlands',img:''},
+  {lat:52.0705,lng:4.3007,name:'Den Haag / Scheveningen',day:12,km:10,time:'15min',country:'netherlands',img:F+'Den_Haag_Scheveningen_Pier_32.jpg?width=300'},
+  {lat:52.1601,lng:4.4970,name:'Leiden',day:12,km:20,time:'20min',country:'netherlands',img:F+'Rapenburg_Leiden_Centrum.jpg?width=300'},
+  {lat:52.3874,lng:4.6462,name:'Haarlem',day:13,km:40,time:'30min',country:'netherlands',img:F+'HaarlemGroteMarkt1.JPG?width=300'},
+  {lat:52.4733,lng:4.8167,name:'Zaanse Schans',day:13,km:20,time:'20min',country:'netherlands',img:F+'Zaanstad_Zaanse_Schans_22.jpg?width=300'},
+  {lat:52.7213,lng:6.0750,name:'Giethoorn',day:14,km:130,time:'1h30',country:'netherlands',img:F+'Giethoorn_Netherlands_flckr05.jpg?width=300'},
+  {lat:52.0833,lng:5.8333,name:'Hoge Veluwe NP',day:15,km:120,time:'1h30',country:'netherlands',img:F+'Sand_Area_Hoge_Veluwe.jpg?width=300'},
+  {lat:52.0907,lng:5.1214,name:'Utrecht',day:16,km:40,time:'30min',country:'netherlands',img:''},
+  {lat:52.3676,lng:4.9041,name:'Amsterdam',day:16,km:40,time:'30min',country:'netherlands',img:''}
+];
+
+const colors={spain:'#e74c3c',andorra:'#3498db',france:'#2563eb',swiss:'#dc2626',germany:'#f59e0b',belgium:'#22c55e',netherlands:'#f97316'};
+
+// Draw route lines by country segments
+let prevCountry='';let segment=[];
+stops.forEach((s,i)=>{
+  if(s.country!==prevCountry&&segment.length>1){
+    L.polyline(segment,{color:colors[prevCountry],weight:3,opacity:.7,dashArray:'8 6'}).addTo(map);
+    segment=[segment[segment.length-1]];
+  }
+  segment.push([s.lat,s.lng]);
+  prevCountry=s.country;
+  if(i===stops.length-1&&segment.length>1){
+    L.polyline(segment,{color:colors[s.country],weight:3,opacity:.7,dashArray:'8 6'}).addTo(map);
+  }
+});
+
+// Add markers
+stops.forEach((s,i)=>{
+  const isKey=s.img||i===0||i===stops.length-1;
+  const icon=L.divIcon({
+    className:'',
+    html:`<div style="width:${isKey?'28px':'18px'};height:${isKey?'28px':'18px'};background:${colors[s.country]};border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isKey?'11px':'8px'};font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5)">${isKey?s.day:''}</div>`,
+    iconSize:[isKey?28:18,isKey?28:18],
+    iconAnchor:[isKey?14:9,isKey?14:9]
+  });
+  const imgHtml=s.img?`<img class="popup-img" src="${s.img}" onerror="this.style.display='none'">`:'';
+  const marker=L.marker([s.lat,s.lng],{icon}).addTo(map);
+  marker.bindPopup(`${imgHtml}<div class="popup-title">Dia ${s.day}: ${s.name}</div><div class="popup-meta">${s.km} km &middot; ${s.time}</div>`,{maxWidth:280});
+});
+
+// Fit bounds
+map.fitBounds(stops.map(s=>[s.lat,s.lng]),{padding:[30,30]});
+
+// === FUNCTIONS ===
+function toggleDay(card){card.classList.toggle('open')}
+function scrollTo_(id){document.querySelector(id)?.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));event?.target?.classList?.add('active')}
+const sections=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
+</script>
+</body>
+</html>
