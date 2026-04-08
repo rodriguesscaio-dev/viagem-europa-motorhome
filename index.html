@@ -535,36 +535,56 @@ const stops=[
 
 const colors={spain:'#e74c3c',andorra:'#3498db',france:'#2563eb',swiss:'#dc2626',germany:'#f59e0b',belgium:'#22c55e',netherlands:'#f97316'};
 
-// Draw route lines by country segments
-let prevCountry='';let segment=[];
-stops.forEach((s,i)=>{
-  if(s.country!==prevCountry&&segment.length>1){
-    L.polyline(segment,{color:colors[prevCountry],weight:3,opacity:.85,dashArray:'8 6'}).addTo(map);
-    segment=[segment[segment.length-1]];
+// Draw REAL road routes via OSRM (not straight lines)
+async function drawRoadRoutes(){
+  for(let i=0;i<stops.length-1;i++){
+    const a=stops[i],b=stops[i+1];
+    const color=colors[b.country]||colors[a.country];
+    try{
+      const url=`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`;
+      const res=await fetch(url);
+      const data=await res.json();
+      if(data.routes&&data.routes[0]){
+        const coords=data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+        L.polyline(coords,{color:color,weight:4,opacity:.8}).addTo(map);
+        // Update stop with real distance and duration
+        const dist=Math.round(data.routes[0].distance/1000);
+        const dur=Math.round(data.routes[0].duration/60);
+        const h=Math.floor(dur/60),m=dur%60;
+        b._realKm=dist;
+        b._realTime=h>0?(h+'h'+(m>0?m.toString().padStart(2,'0'):'')):(m+'min');
+      }
+    }catch(e){
+      // Fallback: straight line if OSRM fails
+      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:color,weight:3,opacity:.6,dashArray:'8 6'}).addTo(map);
+    }
+    // Small delay to not overload OSRM
+    if(i%5===4) await new Promise(r=>setTimeout(r,500));
   }
-  segment.push([s.lat,s.lng]);
-  prevCountry=s.country;
-  if(i===stops.length-1&&segment.length>1){
-    L.polyline(segment,{color:colors[s.country],weight:3,opacity:.85,dashArray:'8 6'}).addTo(map);
-  }
-});
+  // After all routes loaded, add markers with real data
+  addMarkers();
+}
 
-// Add markers
-stops.forEach((s,i)=>{
-  const isKey=s.img||i===0||i===stops.length-1;
-  const icon=L.divIcon({
-    className:'',
-    html:`<div style="width:${isKey?'28px':'16px'};height:${isKey?'28px':'16px'};background:${colors[s.country]};border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isKey?'11px':'7px'};font-weight:800;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25)">${isKey?s.day:''}</div>`,
-    iconSize:[isKey?28:18,isKey?28:18],
-    iconAnchor:[isKey?14:9,isKey?14:9]
+function addMarkers(){
+  stops.forEach((s,i)=>{
+    const isKey=s.img||i===0||i===stops.length-1;
+    const icon=L.divIcon({
+      className:'',
+      html:`<div style="width:${isKey?'28px':'16px'};height:${isKey?'28px':'16px'};background:${colors[s.country]};border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isKey?'11px':'7px'};font-weight:800;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25)">${isKey?s.day:''}</div>`,
+      iconSize:[isKey?28:18,isKey?28:18],
+      iconAnchor:[isKey?14:9,isKey?14:9]
+    });
+    const imgHtml=s.img?`<img class="popup-img" src="${s.img}" onerror="this.style.display='none'">`:'';
+    const km=s._realKm||s.km;
+    const time=s._realTime||s.time;
+    const marker=L.marker([s.lat,s.lng],{icon}).addTo(map);
+    marker.bindPopup(`${imgHtml}<div class="popup-title">Dia ${s.day}: ${s.name}</div><div class="popup-meta">${km} km &middot; ${time}</div>`,{maxWidth:280});
   });
-  const imgHtml=s.img?`<img class="popup-img" src="${s.img}" onerror="this.style.display='none'">`:'';
-  const marker=L.marker([s.lat,s.lng],{icon}).addTo(map);
-  marker.bindPopup(`${imgHtml}<div class="popup-title">Dia ${s.day}: ${s.name}</div><div class="popup-meta">${s.km} km &middot; ${s.time}</div>`,{maxWidth:280});
-});
+}
 
-// Fit bounds
+// Fit bounds immediately, routes draw async
 map.fitBounds(stops.map(s=>[s.lat,s.lng]),{padding:[30,30]});
+drawRoadRoutes();
 
 // === NAV SCROLL HIGHLIGHT ===
 const sections=document.querySelectorAll('section[id]');
