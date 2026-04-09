@@ -139,10 +139,76 @@ section h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:.5r
 .bonus-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem}
 .bonus-item strong{color:#2B7A4B;display:block;font-size:.85rem}
 .bonus-item span{font-size:.78rem;color:var(--text-muted)}
+/* CHECKLIST */
+.checklist-group{margin-bottom:1.5rem}
+.checklist-group h4{font-size:.95rem;margin-bottom:.6rem;padding-bottom:.3rem;border-bottom:1px solid var(--border);color:var(--text)}
+.check-item{display:flex;align-items:center;gap:.6rem;padding:.35rem 0;font-size:.85rem;color:var(--text-muted);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.check-item input[type=checkbox]{width:18px;height:18px;accent-color:#C47D0A;cursor:pointer;flex-shrink:0}
+.check-item.checked{text-decoration:line-through;opacity:.5}
+.checklist-progress{background:var(--surface2);height:8px;border-radius:99px;overflow:hidden;margin-bottom:1.5rem}
+.checklist-progress-bar{height:100%;background:linear-gradient(90deg,#C47D0A,#2B7A4B);border-radius:99px;transition:width .3s}
+.checklist-counter{font-size:.82rem;color:var(--text-muted);margin-bottom:.5rem;text-align:right}
+/* RULES TABLE */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1.5rem 0}
+.rule-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.rule-card h4{font-size:.9rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.rule-row{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.8rem;border-bottom:1px solid var(--surface2)}
+.rule-row:last-child{border:none}
+.rule-label{color:var(--text-muted)}
+.rule-value{font-weight:600;color:var(--text)}
+.rule-value.yes{color:#2B7A4B}
+.rule-value.no{color:#C0392B}
+.rule-value.warn{color:#C47D0A}
+/* LINKS/RESERVAS */
+.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin:1.5rem 0}
+.link-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;display:flex;align-items:center;gap:.8rem;text-decoration:none;color:var(--text);transition:box-shadow .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.link-card:hover{box-shadow:0 4px 16px rgba(196,125,10,.15)}
+.link-icon{font-size:1.5rem;flex-shrink:0}
+.link-card h4{font-size:.88rem;margin-bottom:.1rem}
+.link-card p{font-size:.75rem;color:var(--text-muted)}
+/* PERNOITES TABLE */
+.pernoites-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+.pernoites-table th{text-align:left;padding:.6rem .5rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);border-bottom:2px solid var(--border);white-space:nowrap}
+.pernoites-table td{padding:.5rem;border-bottom:1px solid var(--border);font-size:.78rem}
+.pernoites-table .facility{display:inline-block;padding:.1rem .3rem;border-radius:4px;font-size:.65rem;margin:.1rem;background:var(--surface2)}
+/* FUEL STRATEGY */
+.fuel-plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem;margin:1.5rem 0}
+.fuel-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem}
+.fuel-card h4{font-size:.88rem;margin-bottom:.4rem}
+.fuel-card .fuel-action{font-size:.78rem;color:var(--text-muted)}
+.fuel-card .fuel-price{font-weight:700;color:#2B7A4B;font-size:.85rem}
+.fuel-card .fuel-avoid{font-weight:700;color:#C0392B;font-size:.85rem}
+/* FOOD */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem;margin:1.5rem 0}
+.food-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem}
+.food-card h4{font-size:.9rem;margin-bottom:.3rem}
+.food-card .dish{font-weight:600;color:#92400E;font-size:.82rem}
+.food-card .where{font-size:.78rem;color:var(--text-muted)}
+/* ROMANTIC */
+.romantic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.8rem;margin:1.5rem 0}
+.romantic-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.romantic-card .romantic-icon{font-size:1.5rem;margin-bottom:.3rem}
+.romantic-card h4{font-size:.88rem;margin-bottom:.2rem}
+.romantic-card p{font-size:.78rem;color:var(--text-muted)}
+/* PRIORITY LEVELS */
+.priority-section{margin-bottom:1.5rem}
+.priority-section h4{font-size:.95rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.priority-tag{display:inline-block;padding:.15rem .5rem;border-radius:99px;font-size:.68rem;font-weight:700}
+.tag-must{background:rgba(43,122,75,.12);color:#1D6B3A}
+.tag-optional{background:rgba(196,125,10,.12);color:#92400E}
+.tag-cut{background:rgba(192,57,43,.1);color:#C0392B}
+/* EXPENSE TRACKER */
+.expense-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.expense-table th{text-align:left;padding:.5rem;font-size:.7rem;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--border)}
+.expense-table td{padding:.4rem .5rem;border-bottom:1px solid var(--border);font-size:.82rem}
+.expense-table input{width:80px;padding:.3rem;border:1px solid var(--border);border-radius:6px;font-size:.8rem;background:var(--surface);color:var(--text);font-family:inherit}
+.expense-diff{font-weight:700}
+.expense-diff.under{color:#2B7A4B}
+.expense-diff.over{color:#C0392B}
 footer{border-top:1px solid var(--border);padding:2rem 0;text-align:center;color:var(--text-muted);font-size:.78rem}
 footer a{color:#C47D0A;text-decoration:none}
 @media(max-width:768px){.hero-stats{gap:1rem}.day-header{flex-direction:column;align-items:flex-start;gap:.4rem}.day-badges{justify-content:flex-start}.photo-gallery{grid-template-columns:1fr 1fr}.nav-inner{gap:.3rem;padding:0 .5rem}.nav-btn{padding:.4rem .65rem;font-size:.72rem;min-height:36px;flex:0 0 auto}.waze-btn{padding:.7rem 1.2rem;min-height:44px}.directions-row{flex-direction:column;align-items:flex-start}}
-@media(max-width:430px){.nav-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;padding:0 .5rem}.nav-btn{padding:.5rem .3rem;font-size:.73rem;min-height:38px;text-align:center;border-radius:10px}.photo-gallery{grid-template-columns:1fr}.hero h1{font-size:2.2rem}.hero-stat .num{font-size:1.8rem}.hero-stats{gap:.8rem}.progress-labels{font-size:.55rem}.day-title{font-size:.88rem}.waze-btn{width:100%;justify-content:center}.fuel-table th{padding:.5rem .35rem;font-size:.6rem}.fuel-table td{padding:.45rem .35rem;font-size:.75rem}.cost-grid{grid-template-columns:repeat(2,1fr);gap:.5rem}.cost-card .amount{font-size:1.1rem}.cost-card .desc{font-size:.68rem}.cost-card{padding:.7rem .4rem}}
+@media(max-width:430px){.nav-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;padding:0 .5rem}.nav-btn{padding:.5rem .3rem;font-size:.73rem;min-height:38px;text-align:center;border-radius:10px}.photo-gallery{grid-template-columns:1fr}.hero h1{font-size:2.2rem}.hero-stat .num{font-size:1.8rem}.hero-stats{gap:.8rem}.progress-labels{font-size:.55rem}.day-title{font-size:.88rem}.waze-btn{width:100%;justify-content:center}.fuel-table th{padding:.5rem .35rem;font-size:.6rem}.fuel-table td{padding:.45rem .35rem;font-size:.75rem}.cost-grid{grid-template-columns:repeat(2,1fr);gap:.5rem}.cost-card .amount{font-size:1.1rem}.cost-card .desc{font-size:.68rem}.cost-card{padding:.7rem .4rem}}
 </style>
 </head>
 <body>
@@ -174,8 +240,15 @@ footer a{color:#C47D0A;text-decoration:none}
 <button class="nav-btn" onclick="scrollTo_('#clima')">Clima</button>
 <button class="nav-btn" onclick="scrollTo_('#lez')">LEZ</button>
 <button class="nav-btn" onclick="scrollTo_('#apps')">Apps</button>
-<button class="nav-btn" onclick="scrollTo_('#bonus')">Spots Bonus</button>
+<button class="nav-btn" onclick="scrollTo_('#bonus')">Bonus</button>
 <button class="nav-btn" onclick="scrollTo_('#dicas')">Dicas</button>
+<button class="nav-btn" onclick="scrollTo_('#checklist')">Checklist</button>
+<button class="nav-btn" onclick="scrollTo_('#regras')">Regras</button>
+<button class="nav-btn" onclick="scrollTo_('#reservas')">Reservas</button>
+<button class="nav-btn" onclick="scrollTo_('#comida')">Comida</button>
+<button class="nav-btn" onclick="scrollTo_('#romantico')">Romantico</button>
+<button class="nav-btn" onclick="scrollTo_('#emergencia')">SOS</button>
+<button class="nav-btn" onclick="scrollTo_('#gastos')">Gastos</button>
 </div>
 </nav>
 
@@ -333,6 +406,396 @@ footer a{color:#C47D0A;text-decoration:none}
 <div class="tip"><div class="tip-num">10</div><div class="tip-text"><strong>LEZ obrigatorio</strong> Adesivos antes de sair</div></div>
 <div class="tip"><div class="tip-num">11</div><div class="tip-text"><strong>France Passion</strong> Dormir gratis em fazendas</div></div>
 <div class="tip"><div class="tip-num">12</div><div class="tip-text"><strong>Pneus inverno</strong> Obrigatorio em montanha</div></div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 1: CHECKLIST PRE-VIAGEM -->
+<section id="checklist" style="background:var(--surface)">
+<div class="container">
+<h2>Checklist Pre-Viagem</h2>
+<div class="checklist-counter" id="checkCounter">0 / 0 completos</div>
+<div class="checklist-progress"><div class="checklist-progress-bar" id="checkBar" style="width:0%"></div></div>
+
+<div class="checklist-group"><h4>Documentos</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Passaporte (validade > 6 meses)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> CNH + PID (Permissao Internacional para Dirigir)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Seguro viagem Europa (cobertura medica min 30.000 EUR)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Cartao de credito internacional (chip + contactless)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Copia digital de todos os documentos (Google Drive/iCloud)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Comprovante de reserva do motorhome</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Green Card (seguro do veiculo internacional)</label>
+</div>
+
+<div class="checklist-group"><h4>Adesivos e Registros Obrigatorios</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Crit'Air Francia (certificat-air.gouv.fr) - pedir 3 semanas antes</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Umweltplakette Alemanha (comprar online)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> LEZ Bruxelas (lez.brussels - registro gratuito)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> LEZ Antuerpia (lez.antwerpen.be - registro gratuito)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Vinheta Suica (CHF 40 - comprar na fronteira ou online)</label>
+</div>
+
+<div class="checklist-group"><h4>Tecnologia</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> eSIM Europa (Airalo, Holafly ou similar)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Baixar mapas offline (Google Maps: ES, FR, CH, DE, BE, NL)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Instalar Park4Night + Campercontact</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Adaptador tomada europeu (tipo C/F)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Powerbank carregado</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Cabo carregador carro (isqueiro USB)</label>
+</div>
+
+<div class="checklist-group"><h4>Saude</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Remedios pessoais + receita medica</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Kit primeiro socorros</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Protetor solar + labial</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Repelente</label>
+</div>
+
+<div class="checklist-group"><h4>Roupas (outono europeu 2-20C)</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Jaqueta impermeavel corta-vento</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Fleece / segunda pele termica</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Calcas de trilha</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Bota de trilha impermeavel</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Gorro + luvas (Alpes/Pirineus)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Roupa confortavel para dirigir</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> 1 roupa para jantar especial</label>
+</div>
+
+<div class="checklist-group"><h4>Motorhome</h4>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Verificar aquecimento a gas funciona</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Cobertores extras / saco de dormir</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Utensilios cozinha basicos</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Produtos limpeza + lixo</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Calcos de nivelamento</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Cabo eletrico extensao (25m min)</label>
+<label class="check-item"><input type="checkbox" onchange="updateChecklist()"> Mangueira agua potavel</label>
+</div>
+</div>
+</section>
+
+<!-- ONDA 1: EMERGENCIA E SUPORTE -->
+<section id="emergencia">
+<div class="container">
+<h2>Emergencia e Suporte</h2>
+<p class="section-sub">Salve estes contatos no celular ANTES de viajar</p>
+<div class="rules-grid">
+<div class="rule-card"><h4 style="color:#C0392B">Emergencia Geral</h4>
+<div class="rule-row"><span class="rule-label">Emergencia Europa (policia/bombeiro/ambulancia)</span><span class="rule-value" style="font-size:1.1rem">112</span></div>
+<div class="rule-row"><span class="rule-label">Assistencia na estrada (generico)</span><span class="rule-value">Verificar com locadora</span></div>
+<div class="rule-row"><span class="rule-label">Consulado Brasil - Madrid</span><span class="rule-value">+34 91 700 4650</span></div>
+<div class="rule-row"><span class="rule-label">Consulado Brasil - Paris</span><span class="rule-value">+33 1 4561 6300</span></div>
+<div class="rule-row"><span class="rule-label">Consulado Brasil - Bruxelas</span><span class="rule-value">+32 2 640 2015</span></div>
+<div class="rule-row"><span class="rule-label">Consulado Brasil - Haia</span><span class="rule-value">+31 70 302 3959</span></div>
+</div>
+<div class="rule-card"><h4 style="color:#C47D0A">Seguro e Locadora</h4>
+<div class="rule-row"><span class="rule-label">Seguro viagem (telefone)</span><span class="rule-value">Anotar antes de sair</span></div>
+<div class="rule-row"><span class="rule-label">N. da apolice</span><span class="rule-value">Anotar antes de sair</span></div>
+<div class="rule-row"><span class="rule-label">Locadora motorhome</span><span class="rule-value">Anotar ao retirar</span></div>
+<div class="rule-row"><span class="rule-label">Assistencia 24h locadora</span><span class="rule-value">Anotar ao retirar</span></div>
+</div>
+<div class="rule-card"><h4 style="color:#2B7A4B">Saude</h4>
+<div class="rule-row"><span class="rule-label">Emergencia medica</span><span class="rule-value" style="font-size:1.1rem">112</span></div>
+<div class="rule-row"><span class="rule-label">Farmacia mais proxima</span><span class="rule-value">Google Maps: "pharmacie"</span></div>
+<div class="rule-row"><span class="rule-label">Hospital mais proximo</span><span class="rule-value">Google Maps: "hospital"</span></div>
+<div class="rule-row"><span class="rule-label">Dica</span><span class="rule-value">CEAC/Cartao Europeu Saude nao vale para BR</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 1: REGRAS POR PAIS -->
+<section id="regras" style="background:var(--surface)">
+<div class="container">
+<h2>Regras por Pais</h2>
+<p class="section-sub">Velocidade, pernoite, itens obrigatorios - evite multas</p>
+<div class="rules-grid">
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/es.png"> Espanha</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">90 km/h estrada, 120 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value warn">Tolerado em areas permitidas</span></div>
+<div class="rule-row"><span class="rule-label">Abrir toldo/mesa</span><span class="rule-value no">Proibido fora de campings</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">2 triangulos, colete refletivo</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value no">Nao obrigatorio</span></div>
+</div>
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/fr.png"> Franca</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">80 km/h estrada, 110 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value warn">1 noite tolerado, sem acampar</span></div>
+<div class="rule-row"><span class="rule-label">Abrir toldo/mesa</span><span class="rule-value no">Proibido = "acampar"</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">Triangulo, colete, Crit'Air, etilometro</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value warn">Obrigatorio em zonas montanha (nov-mar)</span></div>
+</div>
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/ch.png"> Suica</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">80 km/h estrada, 120 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value no">Proibido na maioria dos cantoes</span></div>
+<div class="rule-row"><span class="rule-label">Abrir toldo/mesa</span><span class="rule-value no">So em campings</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">Triangulo, vinheta (CHF 40)</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value warn">Recomendado out-abr, multa se acidente sem</span></div>
+</div>
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/de.png"> Alemanha</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">80 km/h estrada, 100 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value yes">Permitido 1 noite (Stellplatz)</span></div>
+<div class="rule-row"><span class="rule-label">Abrir toldo/mesa</span><span class="rule-value no">Nao em via publica</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">Triangulo, colete, Umweltplakette</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value warn">Obrigatorio em condicoes invernais</span></div>
+</div>
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/be.png"> Belgica</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">90 km/h estrada, 120 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value no">Proibido (wild camping ilegal)</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">Triangulo, colete, extintor</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value no">Nao obrigatorio</span></div>
+</div>
+<div class="rule-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/nl.png"> Holanda</h4>
+<div class="rule-row"><span class="rule-label">Velocidade motorhome</span><span class="rule-value">80 km/h estrada, 100 autoestrada</span></div>
+<div class="rule-row"><span class="rule-label">Dormir fora de camping</span><span class="rule-value no">Proibido, multa ate 400 EUR</span></div>
+<div class="rule-row"><span class="rule-label">Itens obrigatorios</span><span class="rule-value">Triangulo (recomendado)</span></div>
+<div class="rule-row"><span class="rule-label">Pneus inverno</span><span class="rule-value no">Nao obrigatorio</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 2: PACKING LIST -->
+<section id="packing">
+<div class="container">
+<h2>Packing List</h2>
+<div class="checklist-counter" id="packCounter">0 / 0 completos</div>
+<div class="checklist-progress"><div class="checklist-progress-bar" id="packBar" style="width:0%"></div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem">
+<div>
+<div class="checklist-group"><h4>Roupas</h4>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Jaqueta impermeavel</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Fleece / segunda pele</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> 5x camisetas</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> 2x calcas trilha</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> 1x calca jeans</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Bota impermeavel</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Tenis casual</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Gorro + luvas</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Meias termicas (3 pares)</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Roupa jantar especial</label>
+</div>
+<div class="checklist-group"><h4>Banheiro</h4>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Kit higiene pessoal</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Toalha microfibra</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Protetor solar</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Remedios pessoais</label>
+</div>
+</div>
+<div>
+<div class="checklist-group"><h4>Eletronicos</h4>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Celular + carregador</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Powerbank</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Adaptador tomada EU</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Camera / GoPro</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Fone bluetooth</label>
+</div>
+<div class="checklist-group"><h4>Trilha</h4>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Mochila dia (20-30L)</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Garrafa agua reutilizavel</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Bastao de trilha (opcional)</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Lanterna / headlamp</label>
+</div>
+<div class="checklist-group"><h4>Cozinha Motorhome</h4>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Temperos basicos</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Azeite / oleo</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Pano de prato / esponja</label>
+<label class="check-item"><input type="checkbox" onchange="updatePacking()"> Saco de lixo</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 2: RESERVAS E LINKS -->
+<section id="reservas" style="background:var(--surface)">
+<div class="container">
+<h2>Reservas e Links Uteis</h2>
+<p class="section-sub">Links diretos para reservar e preparar</p>
+<div class="links-grid">
+<a class="link-card" href="https://www.yescapa.com" target="_blank" rel="noopener"><span class="link-icon">&#128690;</span><div><h4>Yescapa</h4><p>Aluguel motorhome entre particulares</p></div></a>
+<a class="link-card" href="https://www.indie-campers.com" target="_blank" rel="noopener"><span class="link-icon">&#128690;</span><div><h4>Indie Campers</h4><p>Locadora com retirada em Madrid</p></div></a>
+<a class="link-card" href="https://www.mcrent.eu" target="_blank" rel="noopener"><span class="link-icon">&#128690;</span><div><h4>McRent</h4><p>Maior locadora da Europa</p></div></a>
+<a class="link-card" href="https://www.park4night.com" target="_blank" rel="noopener"><span class="link-icon">&#127969;</span><div><h4>Park4Night</h4><p>Encontrar pernoites e campings</p></div></a>
+<a class="link-card" href="https://www.campercontact.com" target="_blank" rel="noopener"><span class="link-icon">&#127969;</span><div><h4>Campercontact</h4><p>Areas de motorhome com reviews</p></div></a>
+<a class="link-card" href="https://www.certificat-air.gouv.fr" target="_blank" rel="noopener"><span class="link-icon">&#127467;&#127479;</span><div><h4>Crit'Air Franca</h4><p>Adesivo ambiental obrigatorio (3,72 EUR)</p></div></a>
+<a class="link-card" href="https://www.e-vignette.ch" target="_blank" rel="noopener"><span class="link-icon">&#127464;&#127469;</span><div><h4>Vinheta Suica</h4><p>E-vignette digital (CHF 40)</p></div></a>
+<a class="link-card" href="https://lez.brussels" target="_blank" rel="noopener"><span class="link-icon">&#127463;&#127466;</span><div><h4>LEZ Bruxelas</h4><p>Registro gratuito obrigatorio</p></div></a>
+<a class="link-card" href="https://www.airalo.com" target="_blank" rel="noopener"><span class="link-icon">&#128241;</span><div><h4>Airalo eSIM</h4><p>Chip digital Europa - sem trocar SIM</p></div></a>
+<a class="link-card" href="https://www.holafly.com" target="_blank" rel="noopener"><span class="link-icon">&#128241;</span><div><h4>Holafly</h4><p>eSIM dados ilimitados Europa</p></div></a>
+<a class="link-card" href="https://www.francepAssion.com" target="_blank" rel="noopener"><span class="link-icon">&#127863;</span><div><h4>France Passion</h4><p>Pernoite gratis em fazendas/vinicolas</p></div></a>
+<a class="link-card" href="https://www.viamichelin.com" target="_blank" rel="noopener"><span class="link-icon">&#128663;</span><div><h4>ViaMichelin</h4><p>Calcular pedagios e rotas</p></div></a>
+</div>
+</div>
+</section>
+
+<!-- ONDA 2: INTERNET E NAVEGACAO -->
+<section id="internet">
+<div class="container">
+<h2>Internet e Navegacao</h2>
+<div class="rules-grid">
+<div class="rule-card"><h4>&#128241; eSIM Europa</h4>
+<div class="rule-row"><span class="rule-label">Airalo</span><span class="rule-value">5GB ~18 USD, 10GB ~26 USD</span></div>
+<div class="rule-row"><span class="rule-label">Holafly</span><span class="rule-value">Dados ilimitados ~34 EUR/15 dias</span></div>
+<div class="rule-row"><span class="rule-label">Dica</span><span class="rule-value">Ativar eSIM ANTES de sair do Brasil</span></div>
+</div>
+<div class="rule-card"><h4>&#128506; Mapas Offline (baixar antes)</h4>
+<div class="rule-row"><span class="rule-label">Google Maps</span><span class="rule-value">Baixar: ES, FR, CH, DE, BE, NL</span></div>
+<div class="rule-row"><span class="rule-label">Maps.me</span><span class="rule-value">Alternativa com trilhas offline</span></div>
+<div class="rule-row"><span class="rule-label">Park4Night</span><span class="rule-value">Salvar favoritos offline</span></div>
+</div>
+<div class="rule-card"><h4>&#128196; Apps Obrigatorios</h4>
+<div class="rule-row"><span class="rule-label">Park4Night</span><span class="rule-value">Pernoites motorhome</span></div>
+<div class="rule-row"><span class="rule-label">Campercontact</span><span class="rule-value">Campings + reviews</span></div>
+<div class="rule-row"><span class="rule-label">Waze</span><span class="rule-value">Navegacao com alertas</span></div>
+<div class="rule-row"><span class="rule-label">Google Translate</span><span class="rule-value">Baixar: FR, DE, NL offline</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 3: ABASTECIMENTO INTELIGENTE -->
+<section id="fuel" style="background:var(--surface)">
+<div class="container">
+<h2>Estrategia de Abastecimento</h2>
+<p class="section-sub">Onde encher, onde evitar - economia real de combustivel</p>
+<div class="fuel-plan">
+<div class="fuel-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/es.png"> Espanha</h4><div class="fuel-price">Diesel ~1,77 EUR/L</div><div class="fuel-action">Abastecer em postos de supermercado (Carrefour, Alcampo) - 10-15 centimos mais barato</div></div>
+<div class="fuel-card" style="border-color:#2B7A4B"><h4><img class="flag-img" src="https://flagcdn.com/w40/ad.png"> Andorra - ENCHER AQUI</h4><div class="fuel-price">Diesel ~1,30 EUR/L - O MAIS BARATO</div><div class="fuel-action">Tanque cheio obrigatorio! Economia de ~63 EUR vs Franca. Ultimo abastecimento barato antes dos Alpes.</div></div>
+<div class="fuel-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/fr.png"> Franca</h4><div class="fuel-avoid">Diesel ~2,20 EUR/L - CARO</div><div class="fuel-action">Evitar autoestradas (+20 cent/L). Abastecer em Leclerc, Intermarche, Carrefour. TotalEnergies tem cap de 2,09/L.</div></div>
+<div class="fuel-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/ch.png"> Suica</h4><div class="fuel-avoid">Diesel ~2,20 CHF/L</div><div class="fuel-action">Abastecer na Franca antes de cruzar. Autonomia de ~500km com tanque cheio de Andorra deve cobrir ate a Alemanha.</div></div>
+<div class="fuel-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/de.png"> Alemanha</h4><div class="fuel-price">Diesel ~2,20 EUR/L</div><div class="fuel-action">Usar app Tankerkoenig para postos baratos. Precos variam muito durante o dia - abastecer entre 18h-20h (mais barato).</div></div>
+<div class="fuel-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/nl.png"> Holanda</h4><div class="fuel-avoid">Diesel ~2,46 EUR/L - O MAIS CARO</div><div class="fuel-action">Abastecer na Belgica ou Alemanha antes de entrar. Evitar postos de autoestrada a todo custo.</div></div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 3: RISCOS E ALERTAS -->
+<section id="riscos">
+<div class="container">
+<h2>Riscos e Alertas</h2>
+<div class="rules-grid">
+<div class="rule-card"><h4 style="color:#C0392B">Estradas Tensas</h4>
+<div class="rule-row"><span class="rule-label">Port d'Envalira (Andorra)</span><span class="rule-value no">EVITAR - 2.408m, neve em outubro</span></div>
+<div class="rule-row"><span class="rule-label">D907 Gorges du Tarn</span><span class="rule-value warn">Estreita, curvas, sem guard rail</span></div>
+<div class="rule-row"><span class="rule-label">D290 Gorges Ardeche</span><span class="rule-value warn">Mirantes sem protecao</span></div>
+<div class="rule-row"><span class="rule-label">Passos alpinos (CH)</span><span class="rule-value warn">Gelo matinal em outubro</span></div>
+</div>
+<div class="rule-card"><h4 style="color:#C47D0A">Cidades Dificeis com Motorhome</h4>
+<div class="rule-row"><span class="rule-label">Lyon centro</span><span class="rule-value">Usar P+R periferia</span></div>
+<div class="rule-row"><span class="rule-label">Bruxelas centro</span><span class="rule-value">P+R Heysel ou periferia</span></div>
+<div class="rule-row"><span class="rule-label">Amsterdam centro</span><span class="rule-value">Camperpark fora + transporte</span></div>
+<div class="rule-row"><span class="rule-label">Zurique centro</span><span class="rule-value">Camping Wollishofen</span></div>
+</div>
+<div class="rule-card"><h4 style="color:#C47D0A">Horarios Por-do-Sol (outubro/novembro)</h4>
+<div class="rule-row"><span class="rule-label">Madrid (21/10)</span><span class="rule-value">19:00</span></div>
+<div class="rule-row"><span class="rule-label">Annecy (25/10)</span><span class="rule-value">18:30</span></div>
+<div class="rule-row"><span class="rule-label">Zurique (28/10)</span><span class="rule-value">18:10</span></div>
+<div class="rule-row"><span class="rule-label">Amsterdam (05/11)</span><span class="rule-value">17:15</span></div>
+<div class="rule-row"><span class="rule-label">Dica</span><span class="rule-value warn">Chegar no destino ANTES do por-do-sol</span></div>
+</div>
+<div class="rule-card"><h4 style="color:#C0392B">Seguranca / Furto</h4>
+<div class="rule-row"><span class="rule-label">Areas de risco</span><span class="rule-value">Estacionamentos de autoestrada (FR, ES)</span></div>
+<div class="rule-row"><span class="rule-label">Nunca</span><span class="rule-value">Deixar objetos visiveis no painel</span></div>
+<div class="rule-row"><span class="rule-label">Noite</span><span class="rule-value">Trancar tudo, fechar cortinas</span></div>
+<div class="rule-row"><span class="rule-label">Dica</span><span class="rule-value">Campings sao mais seguros que wild spots</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 5: COMIDA POR PAIS -->
+<section id="comida" style="background:var(--surface)">
+<div class="container">
+<h2>Gastronomia por Pais</h2>
+<p class="section-sub">O que comer, onde abastecer o motorhome, experiencias que valem</p>
+<div class="food-grid">
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/es.png"> Espanha</h4><div class="dish">Jamon iberico, tapas, tortilla, paella</div><div class="where">Supermercado: Mercadona, Lidl. Mercado de San Miguel (Madrid). Bares de tapas em Alquezar.</div></div>
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/fr.png"> Franca</h4><div class="dish">Bouchon lyonnais, queijos, baguette, crepes</div><div class="where">Supermercado: Leclerc, Carrefour. Bouchon em Lyon. Queijos locais em mercados de rua. Croissant de boulangerie (nao supermercado).</div></div>
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/ch.png"> Suica</h4><div class="dish">Fondue, raclette, rosti, queijo Gruyere</div><div class="where">CARO! Comprar no Aldi/Lidl suico. Fondue em Gruyeres. Chocolate nas fabricas locais. Evitar restaurantes de estrada.</div></div>
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/de.png"> Alemanha</h4><div class="dish">Bratwurst, Brezn, Riesling, Apfelstrudel</div><div class="where">Supermercado: Aldi, Lidl (mais barato da Europa). Weinstube em Bacharach. Bolo Floresta Negra em Triberg. Mercados de rua.</div></div>
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/be.png"> Belgica</h4><div class="dish">Frites, waffles, waterzooi, moules, cerveja</div><div class="where">Frituur local (nao turistico). Delirium Cafe (Bruxelas). Waffles de Liege (nao Brussels). Cerveja Trappiste em bar local.</div></div>
+<div class="food-card"><h4><img class="flag-img" src="https://flagcdn.com/w40/nl.png"> Holanda</h4><div class="dish">Stroopwafel, bitterballen, haring, pannenkoeken</div><div class="where">Supermercado: Albert Heijn. Stroopwafel quente em mercado. Haring (arenque cru) no porto. Pannenkoeken em Giethoorn. Brown cafe em Amsterdam.</div></div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 5: ROTEIRO ROMANTICO -->
+<section id="romantico">
+<div class="container">
+<h2>Momentos Especiais</h2>
+<p class="section-sub">Experiencias para o casal - por-do-sol, jantares, mirantes</p>
+<div class="romantic-grid">
+<div class="romantic-card"><div class="romantic-icon">&#127773;</div><h4>Por-do-sol no Lac d'Annecy</h4><p>Col de la Forclaz - lago inteiro dourado abaixo de voces</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#127860;</div><h4>Jantar em Gruyeres</h4><p>Fondue autentico no vilarejo medieval com vista dos Alpes</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#127956;</div><h4>Manha em Lauterbrunnen</h4><p>Acordar com cachoeira de 300m pela janela do motorhome</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#127863;</div><h4>Riesling em Bacharach</h4><p>Degustacao de vinho numa Weinstube medieval no Vale do Reno</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#128675;</div><h4>Barco em Giethoorn</h4><p>Navegar juntos pelos canais da "Veneza holandesa" ao entardecer</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#127749;</div><h4>Mirante Rochehaut</h4><p>Curva do rio Semois nas Ardenas - atmosfera de conto de fadas</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#127755;</div><h4>Brown Cafe em Amsterdam</h4><p>Ultimo jantar da viagem num cafe centenario a luz de velas</p></div>
+<div class="romantic-card"><div class="romantic-icon">&#128099;</div><h4>Bike em Hoge Veluwe</h4><p>Pedalar juntos pelas dunas e charnecas com bikes gratis</p></div>
+</div>
+</div>
+</section>
+
+<!-- ONDA 5: PRIORIDADES -->
+<section id="prioridades" style="background:var(--surface)">
+<div class="container">
+<h2>Prioridades: Imperdivel / Opcional / Cortar</h2>
+<p class="section-sub">Para decidir rapido quando o tempo aperta</p>
+<div class="priority-section"><h4><span class="priority-tag tag-must">IMPERDIVEL</span> Nao perca por nada</h4>
+<div class="bonus-list">
+<div class="bonus-item"><strong>Congost de Mont-Rebei</strong><span>Dia 3 - desfiladeiro mais espetacular dos Pirineus</span></div>
+<div class="bonus-item"><strong>Gorges du Tarn (D907)</strong><span>Dia 4/5 - estrada mais bonita da Franca</span></div>
+<div class="bonus-item"><strong>Lauterbrunnen</strong><span>Dia 6/7 - vale das 72 cachoeiras, dia livre</span></div>
+<div class="bonus-item"><strong>Vale do Reno (B9)</strong><span>Dia 9 - 40 castelos, vinhedos dourados</span></div>
+<div class="bonus-item"><strong>Giethoorn</strong><span>Dia 14 - vilarejo sem estradas, so barcos</span></div>
+<div class="bonus-item"><strong>Kinderdijk</strong><span>Dia 11 - 19 moinhos UNESCO</span></div>
+</div></div>
+<div class="priority-section"><h4><span class="priority-tag tag-optional">OPCIONAL</span> Otimo se der tempo</h4>
+<div class="bonus-list">
+<div class="bonus-item"><strong>Pont d'Arc (Ardeche)</strong><span>Dia 5 - arco natural sobre o rio</span></div>
+<div class="bonus-item"><strong>Gruyeres</strong><span>Dia 6 - vilarejo do queijo</span></div>
+<div class="bonus-item"><strong>Murren</strong><span>Dia 7 - vilarejo sem carros sobre penhasco</span></div>
+<div class="bonus-item"><strong>Ninglinspo</strong><span>Dia 10 - rio de montanha com cachoeiras</span></div>
+<div class="bonus-item"><strong>Zaanse Schans</strong><span>Dia 13 - moinhos tradicionais</span></div>
+<div class="bonus-item"><strong>Hoge Veluwe NP</strong><span>Dia 15 - bikes gratis + Van Gogh</span></div>
+</div></div>
+<div class="priority-section"><h4><span class="priority-tag tag-cut">CORTAR SE FALTAR TEMPO</span></h4>
+<div class="bonus-list">
+<div class="bonus-item"><strong>Foix</strong><span>Dia 4 - bonito mas so parada rapida</span></div>
+<div class="bonus-item"><strong>Lyon</strong><span>Dia 5 - so almoco, pode pular se atrasado</span></div>
+<div class="bonus-item"><strong>Scheveningen/Leiden</strong><span>Dia 12 - agradavel mas substituivel</span></div>
+<div class="bonus-item"><strong>Utrecht</strong><span>Dia 16 - canais bonitos mas Amsterdam e prioridade</span></div>
+</div></div>
+</div>
+</section>
+
+<!-- ONDA 6: CONTROLE DE GASTOS -->
+<section id="gastos">
+<div class="container">
+<h2>Controle de Gastos</h2>
+<p class="section-sub">Preencha durante a viagem - previsto vs realizado</p>
+<div style="overflow-x:auto">
+<table class="expense-table">
+<thead><tr><th>Categoria</th><th>Previsto</th><th>Gasto Real</th><th>Diferenca</th></tr></thead>
+<tbody>
+<tr><td><strong>Fixos</strong></td><td colspan="3" style="font-size:.7rem;color:var(--text-muted)">Custos ja definidos antes de sair</td></tr>
+<tr><td>Aluguel motorhome</td><td>~1.600 EUR</td><td><input type="number" id="exp_aluguel" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_aluguel">-</td></tr>
+<tr><td>Seguro / franquia</td><td>~200 EUR</td><td><input type="number" id="exp_seguro" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_seguro">-</td></tr>
+<tr><td>Vinheta Suica</td><td>42 EUR</td><td><input type="number" id="exp_vinheta" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_vinheta">-</td></tr>
+<tr><td>Adesivos LEZ</td><td>~25 EUR</td><td><input type="number" id="exp_lez" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_lez">-</td></tr>
+<tr><td>eSIM internet</td><td>~35 EUR</td><td><input type="number" id="exp_esim" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_esim">-</td></tr>
+<tr><td><strong>Variaveis</strong></td><td colspan="3" style="font-size:.7rem;color:var(--text-muted)">Controlados durante a viagem</td></tr>
+<tr><td>Combustivel</td><td>~685 EUR</td><td><input type="number" id="exp_fuel" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_fuel">-</td></tr>
+<tr><td>Pedagios</td><td>~80 EUR</td><td><input type="number" id="exp_pedagio" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_pedagio">-</td></tr>
+<tr><td>Pernoites / campings</td><td>~160 EUR</td><td><input type="number" id="exp_camp" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_camp">-</td></tr>
+<tr><td>Supermercado / cozinhar</td><td>~400 EUR</td><td><input type="number" id="exp_super" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_super">-</td></tr>
+<tr><td>Restaurantes</td><td>~300 EUR</td><td><input type="number" id="exp_rest" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_rest">-</td></tr>
+<tr><td>Atracoes / entradas</td><td>~150 EUR</td><td><input type="number" id="exp_atracoes" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_atracoes">-</td></tr>
+<tr><td>Estacionamento</td><td>~50 EUR</td><td><input type="number" id="exp_estac" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_estac">-</td></tr>
+<tr><td>Imprevistos</td><td>~200 EUR</td><td><input type="number" id="exp_imprev" onchange="calcExpense(this)" placeholder="0"></td><td class="expense-diff" id="diff_imprev">-</td></tr>
+<tr style="font-weight:700;border-top:2px solid var(--border)"><td>TOTAL</td><td id="totalPrev">~3.927 EUR</td><td id="totalReal">0 EUR</td><td class="expense-diff" id="totalDiff">-</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
@@ -591,6 +1054,66 @@ const sections=document.querySelectorAll('section[id]');
 window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('active');if(b.getAttribute('onclick')?.includes(c))b.classList.add('active')})});
 
 // end main code
+
+// === CHECKLIST FUNCTIONS ===
+function updateChecklist(){
+  const section=document.getElementById('checklist');
+  const boxes=section.querySelectorAll('input[type=checkbox]');
+  const checked=[...boxes].filter(b=>b.checked).length;
+  document.getElementById('checkCounter').textContent=checked+' / '+boxes.length+' completos';
+  document.getElementById('checkBar').style.width=(checked/boxes.length*100)+'%';
+  boxes.forEach(b=>{b.closest('.check-item').classList.toggle('checked',b.checked)});
+  localStorage.setItem('checklist',JSON.stringify([...boxes].map(b=>b.checked)));
+}
+function updatePacking(){
+  const section=document.getElementById('packing');
+  const boxes=section.querySelectorAll('input[type=checkbox]');
+  const checked=[...boxes].filter(b=>b.checked).length;
+  document.getElementById('packCounter').textContent=checked+' / '+boxes.length+' completos';
+  document.getElementById('packBar').style.width=(checked/boxes.length*100)+'%';
+  boxes.forEach(b=>{b.closest('.check-item').classList.toggle('checked',b.checked)});
+  localStorage.setItem('packing',JSON.stringify([...boxes].map(b=>b.checked)));
+}
+// Restore saved state
+try{
+  const saved=JSON.parse(localStorage.getItem('checklist')||'[]');
+  const boxes=document.querySelectorAll('#checklist input[type=checkbox]');
+  saved.forEach((v,i)=>{if(boxes[i])boxes[i].checked=v});
+  if(saved.length)updateChecklist();
+  const savedP=JSON.parse(localStorage.getItem('packing')||'[]');
+  const boxesP=document.querySelectorAll('#packing input[type=checkbox]');
+  savedP.forEach((v,i)=>{if(boxesP[i])boxesP[i].checked=v});
+  if(savedP.length)updatePacking();
+}catch(e){}
+// Init counters
+updateChecklist();updatePacking();
+
+// === EXPENSE TRACKER ===
+const prevValues={aluguel:1600,seguro:200,vinheta:42,lez:25,esim:35,fuel:685,pedagio:80,camp:160,super:400,rest:300,atracoes:150,estac:50,imprev:200};
+function calcExpense(input){
+  const id=input.id.replace('exp_','');
+  const prev=prevValues[id]||0;
+  const real=parseFloat(input.value)||0;
+  const diff=prev-real;
+  const el=document.getElementById('diff_'+id);
+  el.textContent=(diff>=0?'-':'+')+(Math.abs(diff))+' EUR';
+  el.className='expense-diff '+(diff>=0?'under':'over');
+  // Update totals
+  let totalReal=0;
+  Object.keys(prevValues).forEach(k=>{totalReal+=parseFloat(document.getElementById('exp_'+k)?.value)||0});
+  document.getElementById('totalReal').textContent=totalReal+' EUR';
+  const totalPrev=Object.values(prevValues).reduce((a,b)=>a+b,0);
+  const totalD=totalPrev-totalReal;
+  const tEl=document.getElementById('totalDiff');
+  tEl.textContent=(totalD>=0?'-':'+')+(Math.abs(totalD))+' EUR';
+  tEl.className='expense-diff '+(totalD>=0?'under':'over');
+  localStorage.setItem('expenses',JSON.stringify(Object.fromEntries(Object.keys(prevValues).map(k=>[k,document.getElementById('exp_'+k)?.value||'']))));
+}
+// Restore saved expenses
+try{
+  const savedE=JSON.parse(localStorage.getItem('expenses')||'{}');
+  Object.entries(savedE).forEach(([k,v])=>{const el=document.getElementById('exp_'+k);if(el&&v){el.value=v;calcExpense(el)}});
+}catch(e){}
 
 // === GLOBAL FUNCTIONS (acessiveis pelo onclick no HTML) ===
 function toggleDay(card){
